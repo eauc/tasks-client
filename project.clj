@@ -2,12 +2,20 @@
   :clean-targets ^{:protect false} ["resources/public/js" "target"]
   :cljsbuild {:builds {:dev {:source-paths ["src/cljs"]
                              :figwheel {:on-jsload "tasks.core/reload-hook"}
-                             :compiler {:asset-path "js"
+                             :compiler {:asset-path "js/app"
                                         :main "tasks.core"
                                         :output-to "resources/public/js/app.js"
-                                        :output-dir "resources/public/js"
+                                        :output-dir "resources/public/js/app/"
                                         :optimizations :none
                                         :pretty-print true}}
+                       :devcards {:source-paths ["src/cljs" "test/cljs"]
+                                  :figwheel {:devcards true}
+                                  :compiler {:asset-path "js/devcards"
+                                             :main "tasks.core-test"
+                                             :output-to "resources/public/js/devcards.js"
+                                             :output-dir "resources/public/js/devcards/"
+                                             :optimizations :none
+                                             :pretty-print true}}
                        :prod {:source-paths ["src/cljs"]
                               :compiler {:asset-path "js"
                                          :closure-defines {goog.DEBUG false}
@@ -26,8 +34,12 @@
             [lein-figwheel "0.5.10"]
             [lein-ring "0.11.0"]]
   :prep-tasks [["cljsbuild" "once" "prod"]]
-	:profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
-                                  [figwheel-sidecar "0.5.9"]]}}
+  :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
+                                  [devcards "0.2.3"]
+                                  [figwheel-sidecar "0.5.10"]
+                                  [org.clojure/test.check "0.9.0"]
+                                  [reagent "0.6.1"]]}
+             :devcards [:dev {:figwheel {:server-port 3450}}]}
   :source-paths ["src/clj"]
   :ring {:handler tasks.core/app}
   :target-path "target/%s")
