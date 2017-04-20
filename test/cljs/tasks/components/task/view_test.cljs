@@ -3,16 +3,19 @@
             [cljs.spec.impl.gen :as gen]
 						[clojure.test.check.generators]
 						[reagent.core :as reagent]
-						[tasks.components.task.view :as task]
+						[tasks.components.task.view :as task-view]
             [tasks.models.task])
 	(:require-macros [devcards.core :as dc :refer [defcard-rg dom-node]]))
 
-(defcard-rg task-view*
+(defcard-rg task-view
 	(fn [state_atom _]
-    [task/render-task-view
+    [task-view/render
      (:task @state_atom)
-     {:show-body (:show-body @state_atom)
-      :toggle-body #(swap! state_atom update-in [:show-body] not)}])
+     {:show-details (:show-details @state_atom)
+      :on-delete #(println (str "Delete ! " %))
+      :on-edit #(println (str "Edit ! " %))
+      :toggle-details #(swap! state_atom update-in [:show-details] not)
+      :toggle-done #(swap! state_atom update-in [:task :done] not)}])
   (reagent/atom {:task (gen/generate (spec/gen :tasks.models.task/task))
-                 :show-body false})
+                 :show-details false})
   {:inspect-data true})
