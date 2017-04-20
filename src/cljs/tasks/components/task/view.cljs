@@ -8,7 +8,8 @@
    [:div.tasks-task-header
     [:div.tasks-task-done {:on-click #(toggle-done (:id task))}
      [:input {:type "checkbox"
-              :checked (:done task)}]]
+              :checked (:done task)
+              :read-only true}]]
     [:h3.tasks-task-title
      {:on-click #(toggle-details (:id task))}
      (:title task)]

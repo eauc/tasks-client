@@ -11,3 +11,9 @@
 (spec/def ::done boolean?)
 
 (spec/def ::task (spec/keys :req-un [::id ::title ::body ::done]))
+
+(spec/fdef toggle-done
+           :args (spec/cat :task ::task)
+           :ret ::task)
+(defn toggle-done [task]
+  (update-in task [:done] not))
