@@ -1,4 +1,5 @@
-(ns tasks.core)
+(ns tasks.core
+  (:require [tasks.models.task]))
 
 (def debug?
   ^boolean js/goog.DEBUG)

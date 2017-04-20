@@ -16,11 +16,11 @@
                                          :optimizations :advanced
                                          :pretty-print false}}}}
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.93"]
+                 [org.clojure/clojurescript "1.9.521"]
                  [compojure "1.5.2"]
                  [ring/ring-defaults "0.2.3"]]
   :figwheel {:ring-handler tasks.core/app}
-	:main ^:skip-aot tasks.core
+  :main ^:skip-aot tasks.core
   :min-lein-version "2.0.0"
   :plugins [[lein-cljsbuild "1.1.5"]
             [lein-figwheel "0.5.10"]
@@ -30,4 +30,4 @@
                                   [figwheel-sidecar "0.5.9"]]}}
   :source-paths ["src/clj"]
   :ring {:handler tasks.core/app}
-	:target-path "target/%s")
+  :target-path "target/%s")
