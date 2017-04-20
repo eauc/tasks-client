@@ -19,4 +19,8 @@
                :padding "0.5em 0.8em"}]
    [:&-body {:display "none"}]
    [:&-done [:input {:margin "0.75em"}]]
-   [:&-title {:flex-grow 1}]])
+   [:&-title {:flex-grow 1}]
+
+   [:&-edit {:display "flex"
+             :flex-flow "column nowrap"}
+    [:&-body {:min-height "8em"}]]])

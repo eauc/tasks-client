@@ -1,22 +1,22 @@
-(ns tasks.components.task.view)
+(ns tasks.components.task.view
+  (:require [tasks.models.task :as task]))
 
-(defn render
-  [task {:keys [show-details toggle-details toggle-done on-delete on-edit]}]
+(defn render [task {:keys [show-details toggle-details on-delete on-edit on-update]}]
   [:div.tasks-task {:class (str (if (:done task) "done")
                                 " "
                                 (if show-details "show-details"))}
    [:div.tasks-task-header
-    [:div.tasks-task-done {:on-click #(toggle-done (:id task))}
+    [:div.tasks-task-done {:on-click #(on-update (task/toggle-done task))}
      [:input {:type "checkbox"
               :checked (:done task)
               :read-only true}]]
     [:h3.tasks-task-title
-     {:on-click #(toggle-details (:id task))}
+     {:on-click #(toggle-details task)}
      (:title task)]
     [:button.tasks-task-action
-     {:on-click #(on-edit (:id task))}
+     {:on-click #(on-edit task)}
      "Edit"]
     [:button.tasks-task-action
-     {:on-click #(on-delete (:id task))}
+     {:on-click #(on-delete task)}
      "Delete"]]
    [:p.tasks-task-body (:body task)]])
