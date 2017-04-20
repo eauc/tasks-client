@@ -6,12 +6,12 @@
                        (on-save task))}
    [:fieldset
     [:legend "Edit Task"]
-    [:div.tasks-task-edit
+    [:div.tasks-edit
      [:input {:type "text"
               :placeholder "Title"
               :on-change #(on-update (assoc-in task [:title] (-> % .-target .-value)))
               :value (:title task)}]
-     [:textarea.tasks-task-edit-body
+     [:textarea.tasks-edit-body
       {:placeholder "Body"
        :on-change #(on-update (assoc-in task [:body] (-> % .-target .-value)))
        :value (:body task)}]

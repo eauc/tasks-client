@@ -2,21 +2,21 @@
   (:require [tasks.models.task :as task]))
 
 (defn render [task {:keys [show-details toggle-details on-delete on-edit on-update]}]
-  [:div.tasks-task {:class (str (if (:done task) "done")
+  [:div.tasks-view {:class (str (if (:done task) "done")
                                 " "
                                 (if show-details "show-details"))}
-   [:div.tasks-task-header
-    [:div.tasks-task-done {:on-click #(on-update (task/toggle-done task))}
+   [:div.tasks-view-header
+    [:div.tasks-view-done {:on-click #(on-update (task/toggle-done task))}
      [:input {:type "checkbox"
               :checked (:done task)
               :read-only true}]]
-    [:h3.tasks-task-title
+    [:h3.tasks-view-title
      {:on-click #(toggle-details task)}
      (:title task)]
-    [:button.tasks-task-action
+    [:button.tasks-view-action
      {:on-click #(on-edit task)}
      "Edit"]
-    [:button.tasks-task-action
+    [:button.tasks-view-action
      {:on-click #(on-delete task)}
      "Delete"]]
-   [:p.tasks-task-body (:body task)]])
+   [:p.tasks-view-body (:body task)]])

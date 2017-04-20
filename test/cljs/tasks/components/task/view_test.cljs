@@ -1,14 +1,14 @@
 (ns tasks.components.task.view-test
   (:require [cljs.spec :as spec]
             [cljs.spec.impl.gen :as gen]
-						[clojure.test.check.generators]
-						[devcards.core :as dc :refer-macros [defcard-rg dom-node]]
-						[reagent.core :as reagent]
+            [clojure.test.check.generators]
+            [devcards.core :as dc :refer-macros [defcard-rg dom-node]]
+            [reagent.core :as reagent]
             [tasks.components.task.view :as task-view]
             [tasks.models.task :as task]))
 
 (defcard-rg task-view
-	(fn [state_atom _]
+  (fn [state_atom _]
     [task-view/render
      (:task @state_atom)
      {:show-details (:show-details @state_atom)
