@@ -6,9 +6,15 @@
 	 [:&-body {:min-height "8em"}]])
 
 (def list
-	[:&-list
+	[:&-list {:display "flex"
+            :flex-flow "column nowrap"}
    [:&-filter {:display "flex"
-               :flex-flow "column nowrap"}]
+               :flex-flow "column nowrap"
+               :flex-shrink 0
+               :border-bottom "1px solid rgba(0,0,0,0.2)"}]
+   [:&-body {:flex-shrink 1
+             :overflow-x "hidden"
+             :overflow-y "auto"}]
    [:.tasks-view {:border-bottom "1px solid rgba(0,0,0,0.2)"}]])
 
 (def view
