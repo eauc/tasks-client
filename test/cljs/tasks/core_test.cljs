@@ -1,7 +1,9 @@
 (ns tasks.core-test
-  (:require [tasks.components.task.edit-test]
+  (:require [tasks.components.task.create-test]
+            [tasks.components.task.edit-test]
             [tasks.components.task.list-test]
             [tasks.components.task.view-test]
+            [tasks.components.nav.view-test]
             [tasks.models.task-test]
             [tasks.models.tasks-test]
             [cljs.test :refer-macros [run-tests]]))

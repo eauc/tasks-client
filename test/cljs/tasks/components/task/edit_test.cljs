@@ -2,7 +2,7 @@
   (:require [cljs.spec :as spec]
             [cljs.spec.impl.gen :as gen]
             [clojure.test.check.generators]
-            [devcards.core :as dc :refer-macros [defcard-rg dom-node]]
+            [devcards.core :as dc :refer-macros [defcard-rg]]
             [reagent.core :as reagent]
             [tasks.components.task.edit :as task-edit]
             [tasks.models.task :as task]))
