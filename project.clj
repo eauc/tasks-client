@@ -7,12 +7,13 @@
   :cljsbuild
   {:builds
    {:dev {:source-paths ["src/cljs"]
-          :figwheel {:on-jsload "tasks.core/reload-hook"}
+          :figwheel {:on-jsload "tasks.core/mount-root"}
           :compiler {:asset-path "js/app"
                      :main "tasks.core"
                      :output-to "resources/public/js/app.js"
                      :output-dir "resources/public/js/app/"
                      :optimizations :none
+                     :preloads [devtools.preload]
                      :pretty-print true}}
     :devcards {:source-paths ["src/cljs" "test/cljs"]
                :figwheel {:devcards true}
@@ -21,6 +22,7 @@
                           :output-to "resources/public/js/devcards.js"
                           :output-dir "resources/public/js/devcards/"
                           :optimizations :none
+                          :preloads [devtools.preload]
                           :pretty-print true}}
     :prod {:source-paths ["src/cljs"]
            :compiler {:asset-path "js"
@@ -33,6 +35,9 @@
                  [org.clojure/clojurescript "1.9.521"]
                  [compojure "1.5.2"]
                  [garden "1.3.2"]
+                 [reagent "0.6.1" :exclusions [cljsjs/react-dom]]
+                 [cljsjs/react-dom "15.5.0-0"]
+                 [re-frame "0.9.2"]
                  [ring/ring-defaults "0.2.3"]]
   :figwheel {:css-dirs ["resources/public/css"]
              :ring-handler tasks.core/app}
@@ -57,11 +62,11 @@
   :prep-tasks [["cljsbuild" "once" "prod"]
                ["garden" "once" "prod"]]
   :profiles
-  {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
+  {:dev {:dependencies [[binaryage/devtools "0.9.4"]
+                        [com.cemerick/piggieback "0.2.1"]
                         [devcards "0.2.3"]
                         [figwheel-sidecar "0.5.10"]
-                        [org.clojure/test.check "0.9.0"]
-                        [reagent "0.6.1"]]
+                        [org.clojure/test.check "0.9.0"]]
          :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
          :source-paths ["src/cljs"]}
    :devcards [:dev {:figwheel {:server-port 3450}}]}
