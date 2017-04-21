@@ -1,6 +1,5 @@
 (ns tasks.models.tasks
   (:require [cljs.spec :as spec]
-            [tasks.models.task :as task]
             [clojure.string :as str]))
 
 (spec/def ::tasks (spec/* :tasks.models.task/task))
@@ -24,11 +23,18 @@
                            :filter string?)
            :ret ::tasks)
 (defn filter-with [tasks with]
-  (let [re-with (re-pattern (-> with
-                                (str/trim)
-                                (str/replace #"\s+" "|")
-                                (str/replace #"\.+\*?" ".*")))]
+  (let [re-with (re-pattern (str "(?i)"
+                                 (-> with
+                                     (str/trim)
+                                     (str/replace #"\s+" "|")
+                                     (str/replace #"\.+\*?" ".*"))))]
     (filter
       #(or (re-find re-with (:title %))
            (re-find re-with (:body %)))
       tasks)))
+
+(spec/fdef sort-by-title
+           :args (spec/cat :list #(spec/valid? ::tasks %))
+           :ret ::tasks)
+(defn sort-by-title [tasks]
+  (sort-by (comp str/lower-case :title) tasks))
