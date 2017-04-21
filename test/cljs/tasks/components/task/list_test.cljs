@@ -10,9 +10,7 @@
 (defn toggle-details [state task]
   (let [new (:id task)]
     (update-in state [:show-details]
-               #(if (= % new)
-                  nil
-                  new))))
+               #(if (= % new) nil new))))
 
 (defcard-rg task-view
   (fn [state_atom _]
@@ -20,10 +18,14 @@
           show-details (:show-details @state_atom)
           on-update #(swap! state_atom assoc-in [:tasks] %)
           toggle-details #(swap! state_atom toggle-details %)]
-      [task-list/render tasks {:show-details show-details
-                               :on-edit #(println "Edit! " %)
-                               :on-update on-update
-                               :toggle-details toggle-details}]))
-  (reagent/atom {:tasks (gen/sample (spec/gen :tasks.models.task/task))
-                 :show-details nil})
+      [task-list/render tasks
+       {:show-details show-details
+        :on-edit #(println "Edit! " %)
+        :on-update on-update
+        :toggle-details toggle-details}]))
+
+  (reagent/atom
+    {:tasks (gen/sample (spec/gen :tasks.models.task/task))
+     :show-details nil})
+
   {:inspect-data true})

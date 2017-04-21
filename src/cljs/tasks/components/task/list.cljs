@@ -6,6 +6,7 @@
   [:div.tasks-list
    (for [task tasks]
      ^{:key (:id task)}
-     [task-view/render task (merge props {:on-delete #(on-update (tasks/delete-task tasks %))
-                                          :on-update #(on-update (tasks/update-task tasks %))
-                                          :show-details (= show-details (:id task))})])])
+     [task-view/render task
+      (merge props {:on-delete #(on-update (tasks/delete-task tasks %))
+                    :on-update #(on-update (tasks/update-task tasks %))
+                    :show-details (= show-details (:id task))})])])
