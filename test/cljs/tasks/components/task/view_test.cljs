@@ -8,6 +8,11 @@
             [tasks.models.task :as task]))
 
 (defcard-rg task-view
+  "### Basic task view
+
+* clicking on checkbox should toggle :done state
+* clicking on title should toggle body/actions"
+
   (fn [state_atom _]
     [task-view/render (:task @state_atom)
      {:show-details (:show-details @state_atom)

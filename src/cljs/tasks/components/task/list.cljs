@@ -1,12 +1,22 @@
 (ns tasks.components.task.list
-  (:require [tasks.components.task.view :as task-view]
-            [tasks.models.tasks :as tasks]))
+	(:require [tasks.components.task.view :as task-view]
+						[tasks.models.tasks :as tasks]))
 
-(defn render [tasks {:keys [on-update show-details] :as props}]
-  [:div.tasks-list
-   (for [task tasks]
-     ^{:key (:id task)}
-     [task-view/render task
-      (merge props {:on-delete #(on-update (tasks/delete-task tasks %))
-                    :on-update #(on-update (tasks/update-task tasks %))
-                    :show-details (= show-details (:id task))})])])
+(defn toggle-details-id [current new]
+	(if (= current new) nil new))
+
+(defn render [tasks {:keys [filter on-filter on-update show-details toggle-details] :as props}]
+	[:div.tasks-list
+	 [:form.tasks-list-filter
+		{:on-submit #(-> % .preventDefault)}
+		[:input {:type "text"
+						 :placeholder "Filter"
+						 :value filter
+						 :on-change #(on-filter (-> % .-target .-value))}]]
+	 (for [task tasks]
+		 ^{:key (:id task)}
+		 [task-view/render task
+			(merge props {:on-delete #(on-update (tasks/delete-task tasks %))
+										:on-update #(on-update (tasks/update-task tasks %))
+										:show-details (= show-details (:id task))
+										:toggle-details #(toggle-details (toggle-details-id show-details (:id task)))})])])
