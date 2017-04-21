@@ -5,7 +5,9 @@
             [re-frame.core :as re-frame]))
 
 (def default-db
-  {:tasks (into [] (gen/sample (spec/gen :tasks.models.task/task)))})
+  {:tasks (into [] (gen/sample (spec/gen :tasks.models.task/task)))
+   :filter ""
+   :show-details nil})
 
 (re-frame/reg-event-db
  :initialize-db

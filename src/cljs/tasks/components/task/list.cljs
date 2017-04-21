@@ -1,5 +1,6 @@
 (ns tasks.components.task.list
-  (:require [tasks.components.task.sub]
+  (:require [tasks.components.task.handler]
+            [tasks.components.task.sub]
             [tasks.components.task.view :as task-view]
             [tasks.models.tasks :as tasks]
             [re-frame.core :as re-frame]))
@@ -7,14 +8,17 @@
 (defn toggle-details-id [current new]
   (if (= current new) nil new))
 
-(defn render [tasks {:keys [filter on-filter on-update show-details toggle-details] :as props}]
+(defn filter-render [filter {:keys [on-filter]}]
+  [:form.tasks-list-filter
+   {:on-submit #(-> % .preventDefault)}
+   [:input {:type "text"
+            :placeholder "Filter"
+            :value filter
+            :on-change #(on-filter (-> % .-target .-value))}]])
+
+(defn render [tasks {:keys [filter on-update show-details toggle-details] :as props}]
   [:div.tasks-list
-   [:form.tasks-list-filter
-    {:on-submit #(-> % .preventDefault)}
-    [:input {:type "text"
-             :placeholder "Filter"
-             :value filter
-             :on-change #(on-filter (-> % .-target .-value))}]]
+   [filter-render filter props]
    [:div.tasks-list-body
     (for [task tasks]
       ^{:key (:id task)}
@@ -25,6 +29,13 @@
                      :toggle-details #(toggle-details (toggle-details-id show-details (:id task)))})])]])
 
 (defn component []
-  (let [tasks (re-frame/subscribe [:tasks])]
+  (let [filter (re-frame/subscribe [:filter])
+        show-details (re-frame/subscribe [:show-details])
+        tasks (re-frame/subscribe [:tasks-sorted])]
     (fn []
-      [render @tasks {}])))
+      [render @tasks
+       {:filter @filter
+        :on-filter #(re-frame/dispatch [:filter-update %])
+        :on-update #(re-frame/dispatch [:tasks-update %])
+        :show-details @show-details
+        :toggle-details #(re-frame/dispatch [:toggle-details %])}])))

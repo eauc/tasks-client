@@ -36,9 +36,9 @@
 
 (def view
   [:&-view {:user-select "none"}
-   [:&-header {:display "flex"
-               :flex-flow "row nowrap"
-               :align-items "center"}]
+   [:&-header {:align-items "center"
+               :display "flex"
+               :flex-flow "row nowrap"}]
    [:&.done [:.tasks-view-title {:opacity 0.6
                                  :font-style "italic"
                                  :text-decoration "line-through"}]]
@@ -49,10 +49,13 @@
                :background-color "white"
                :border "1px solid rgba(0,0,0,0.5)"
                :border-radius "3px"
+               :cursor "pointer"
                :margin "0 0.5em"
                :padding "0.5em 0.8em"}]
-   [:&-body {:display "none"}]
+   [:&-body {:display "none"
+             :padding "0 1em"}]
    [:&-done [:input {:margin "0.75em"}]]
    [:&-title {:flex-grow 1
               :cursor "pointer"
-              :margin "0.5em 0"}]])
+              :margin "0.5em 0"
+              :font-weight 500}]])
