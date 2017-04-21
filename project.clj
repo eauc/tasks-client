@@ -61,7 +61,9 @@
                         [devcards "0.2.3"]
                         [figwheel-sidecar "0.5.10"]
                         [org.clojure/test.check "0.9.0"]
-                        [reagent "0.6.1"]]}
+                        [reagent "0.6.1"]]
+         :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+         :source-paths ["src/cljs"]}
    :devcards [:dev {:figwheel {:server-port 3450}}]}
   :source-paths ["src/clj"]
   :ring {:handler tasks.core/app}
