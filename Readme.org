@@ -1,0 +1,2 @@
+- debounce inputs
+- show-details body empty -> no display

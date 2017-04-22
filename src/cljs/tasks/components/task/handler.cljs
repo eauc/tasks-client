@@ -11,7 +11,8 @@
 ;; (trace-forms {:tracer (tracer :color "green")}
 
 (def interceptors
-  [(when debug? re-frame/debug)])
+  [db/check-spec-interceptor
+   (when debug? re-frame/debug)])
 
 (re-frame/reg-event-db
  :create-save
