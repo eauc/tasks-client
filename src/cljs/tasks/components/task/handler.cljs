@@ -1,5 +1,33 @@
 (ns tasks.components.task.handler
-  (:require [re-frame.core :as re-frame]))
+  (:require [re-frame.core :as re-frame]
+            [tasks.models.tasks :as tasks]
+            [tasks.routes :as routes]))
+
+(re-frame/reg-event-db
+ :edit-update
+ (fn [db [_ edit]]
+   (assoc-in db [:edit] edit)))
+
+(re-frame/reg-event-db
+ :edit-save
+ (fn [db [_ task]]
+   (-> db
+       (update-in [:tasks] tasks/update-task task)
+       (assoc-in [:edit] nil)
+       (assoc-in [:page] :home))))
+
+(re-frame/reg-event-db
+ :edit-start
+ (fn [db [_ id]]
+   (let [tasks (:tasks db)
+         task (first (filter #(= (:id %) id) tasks))]
+     (if task
+       (-> db
+           (assoc-in [:edit] task)
+           (assoc-in [:page] :edit))
+       (do
+         (routes/nav! "/")
+         db)))))
 
 (re-frame/reg-event-db
  :filter-update
@@ -8,8 +36,8 @@
 
 (re-frame/reg-event-db
  :tasks-update
- (fn [db [_ task]]
-   (assoc-in db [:tasks] task)))
+ (fn [db [_ tasks]]
+   (assoc-in db [:tasks] tasks)))
 
 (re-frame/reg-event-db
  :toggle-details

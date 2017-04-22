@@ -3,6 +3,10 @@
             [tasks.models.tasks :as tasks]))
 
 (re-frame/reg-sub
+ :edit
+ (fn [db _] (:edit db)))
+
+(re-frame/reg-sub
  :filter
  (fn [db _] (:filter db)))
 

@@ -38,7 +38,8 @@
                  [reagent "0.6.1" :exclusions [cljsjs/react-dom]]
                  [cljsjs/react-dom "15.5.0-0"]
                  [re-frame "0.9.2"]
-                 [ring/ring-defaults "0.2.3"]]
+                 [ring/ring-defaults "0.2.3"]
+                 [secretary "1.2.3"]]
   :figwheel {:css-dirs ["resources/public/css"]
              :ring-handler tasks.core/app}
   :garden

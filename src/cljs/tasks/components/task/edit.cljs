@@ -1,5 +1,7 @@
 (ns tasks.components.task.edit
-  (:require [cljs.spec :as spec]))
+  (:require [cljs.spec :as spec]
+            [re-frame.core :as re-frame]
+            [tasks.routes :as routes]))
 
 (defn problem-for-field [problems field]
   (filter #(= field (:path %)) problems))
@@ -31,3 +33,13 @@
         [:button {:type "submit"} "Save"]
         [:button {:type "button"
                   :on-click #(on-cancel task)} "Cancel"]]]]]))
+
+(defn component []
+  (let [edit (re-frame/subscribe [:edit])]
+    (fn []
+      [render @edit
+       {:on-update #(re-frame/dispatch [:edit-update %])
+        :on-cancel #(routes/nav! routes/home)
+        :on-save (fn [task]
+                   (re-frame/dispatch [:edit-save task])
+                   (routes/nav! routes/home))}])))

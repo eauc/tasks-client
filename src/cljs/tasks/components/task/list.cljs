@@ -3,7 +3,9 @@
             [tasks.components.task.sub]
             [tasks.components.task.view :as task-view]
             [tasks.models.tasks :as tasks]
-            [re-frame.core :as re-frame]))
+            [re-frame.core :as re-frame]
+            [secretary.core :as secretary]
+            [tasks.routes :as routes]))
 
 (defn toggle-details-id [current new]
   (if (= current new) nil new))
@@ -35,6 +37,7 @@
     (fn []
       [render @tasks
        {:filter @filter
+        :on-edit #(routes/nav! routes/edit {:id (:id %)})
         :on-filter #(re-frame/dispatch [:filter-update %])
         :on-update #(re-frame/dispatch [:tasks-update %])
         :show-details @show-details

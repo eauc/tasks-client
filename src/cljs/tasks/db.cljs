@@ -6,7 +6,9 @@
 
 (def default-db
   {:tasks (into [] (gen/sample (spec/gen :tasks.models.task/task)))
+   :edit nil
    :filter ""
+   :page nil
    :show-details nil})
 
 (re-frame/reg-event-db
