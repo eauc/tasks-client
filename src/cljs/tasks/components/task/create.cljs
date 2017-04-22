@@ -9,4 +9,4 @@
 
 (defn component []
   (fn []
-    [render {:on-create #(routes/nav! routes/create)}]))
+    [render {:on-create #(re-frame/dispatch [:nav routes/create])}]))

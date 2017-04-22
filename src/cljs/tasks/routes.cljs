@@ -20,9 +20,16 @@
 
 (defonce history (History.))
 
-(defn nav!
-  ([page] (.setToken history (subs (page) 1)))
-  ([page params] (.setToken history (subs (page params) 1))))
+(re-frame/reg-fx
+ :nav
+ (fn [{:keys [route params]}]
+   (let [url (subs (route params) 1)]
+     (.setToken history url))))
+
+(re-frame/reg-event-fx
+ :nav
+ (fn [_ [_ route params]]
+   {:nav {:route route :params params}}))
 
 (defn hook-browser-navigation! []
   (events/listen history EventType/NAVIGATE #(secretary/dispatch! (.-token %)))

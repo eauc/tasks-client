@@ -1,2 +1,3 @@
 - debounce inputs
 - show-details body empty -> no display
+- body markdown

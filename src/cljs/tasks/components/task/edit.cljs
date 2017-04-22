@@ -39,7 +39,5 @@
     (fn [_]
       [render @edit
        {:on-update #(re-frame/dispatch [:edit-update %])
-        :on-cancel #(routes/nav! routes/home)
-        :on-save (fn [task]
-                   (re-frame/dispatch [on-save-event task])
-                   (routes/nav! routes/home))}])))
+        :on-cancel #(re-frame/dispatch [:nav routes/home])
+        :on-save #(re-frame/dispatch [on-save-event %])}])))

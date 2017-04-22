@@ -44,7 +44,7 @@
     (fn component-render []
       [render @tasks
        {:filter @filter
-        :on-edit #(routes/nav! routes/edit {:id (:id %)})
+        :on-edit #(re-frame/dispatch [:nav routes/edit {:id (:id %)}])
         :on-filter #(re-frame/dispatch [:filter-update %])
         :on-update #(re-frame/dispatch [:tasks-update %])
         :show-details @show-details
