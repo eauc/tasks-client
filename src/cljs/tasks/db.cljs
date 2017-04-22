@@ -50,7 +50,9 @@
    :page nil
    :show-details nil})
 
-(re-frame/reg-event-db
+(re-frame/reg-event-fx
  :initialize-db
- [check-spec-interceptor]
- (fn [_ _] (debug/spy "default-db" default-db)))
+ [check-spec-interceptor
+  (re-frame/inject-cofx :storage)]
+ (fn [{:keys [storage]} _]
+   {:db (debug/spy "default-db" (assoc default-db :tasks storage))}))

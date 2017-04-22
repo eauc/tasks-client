@@ -2,6 +2,7 @@
   (:require [re-frame.core :as re-frame]
             [tasks.components.page.handler]
             [tasks.components.page.sub]
+            [tasks.storage]
             [tasks.components.task.list :as task-list]
             [tasks.components.task.edit :as task-edit]))
 
@@ -20,6 +21,8 @@
     [:div]))
 
 (defn component []
-  (let [page (re-frame/subscribe [:page])]
+  (let [page (re-frame/subscribe [:page])
+        storage (re-frame/subscribe [:storage])]
     (fn []
+      @storage
       [render @page])))
