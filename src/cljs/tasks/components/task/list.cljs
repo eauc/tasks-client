@@ -1,5 +1,6 @@
 (ns tasks.components.task.list
-  (:require [tasks.components.task.handler]
+  (:require [tasks.components.task.create :as task-create]
+            [tasks.components.task.handler]
             [tasks.components.task.sub]
             [tasks.components.task.view :as task-view]
             [tasks.models.tasks :as tasks]
@@ -20,6 +21,7 @@
 
 (defn render [tasks {:keys [filter on-update show-details toggle-details] :as props}]
   [:div.tasks-list
+   [task-create/component]
    [filter-render filter props]
    [:div.tasks-list-body
     (for [task tasks]

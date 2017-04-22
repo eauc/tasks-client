@@ -17,6 +17,8 @@
     :height "100vh"}
    nav/styles
    [:&-body {:box-shadow "0 15px 15px rgba(0,0,0,0.3)"
+             :display "flex"
+             :flex-flow "column nowrap"
              :flex-grow "1"
              :max-width "800px"
              :position "relative"

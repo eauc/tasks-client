@@ -55,7 +55,9 @@
    [:&-body {:display "none"
              :padding "0 1em"}]
    [:&-done [:input {:margin "0.75em"}]]
-   [:&-title {:flex-grow 1
-              :cursor "pointer"
+   [:&-title {:cursor "pointer"
+              :flex-grow 1
+              :font-weight 500
+              :overflow-x "hidden"
               :margin "0.5em 0"
-              :font-weight 500}]])
+              :text-overflow "ellipsis"}]])

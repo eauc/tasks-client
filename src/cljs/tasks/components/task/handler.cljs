@@ -4,6 +4,24 @@
             [tasks.routes :as routes]))
 
 (re-frame/reg-event-db
+ :create-save
+ (fn [db [_ task]]
+   (-> db
+       (update-in [:tasks] #(cons task %))
+       (assoc-in [:edit] nil))))
+
+(re-frame/reg-event-db
+ :create-start
+ (fn [db _]
+   (.log js/console "create-start" db)
+   (-> db
+       (assoc-in [:edit] {:id (str (.now js/Date))
+                          :title ""
+                          :body ""
+                          :done false})
+       (assoc-in [:page] :create))))
+
+(re-frame/reg-event-db
  :edit-update
  (fn [db [_ edit]]
    (assoc-in db [:edit] edit)))
@@ -13,8 +31,7 @@
  (fn [db [_ task]]
    (-> db
        (update-in [:tasks] tasks/update-task task)
-       (assoc-in [:edit] nil)
-       (assoc-in [:page] :home))))
+       (assoc-in [:edit] nil))))
 
 (re-frame/reg-event-db
  :edit-start

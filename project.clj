@@ -14,6 +14,7 @@
                      :output-dir "resources/public/js/app/"
                      :optimizations :none
                      :preloads [devtools.preload]
+                     :tooling-config {:devtools/config {:features-to-install :all}}
                      :pretty-print true}}
     :devcards {:source-paths ["src/cljs" "test/cljs"]
                :figwheel {:devcards true}
@@ -41,7 +42,8 @@
                  [ring/ring-defaults "0.2.3"]
                  [secretary "1.2.3"]]
   :figwheel {:css-dirs ["resources/public/css"]
-             :ring-handler tasks.core/app}
+             :ring-handler tasks.core/app
+             :validate-config false}
   :garden
   {:builds
    [ {:id "dev"

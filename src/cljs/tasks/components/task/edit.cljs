@@ -34,12 +34,12 @@
         [:button {:type "button"
                   :on-click #(on-cancel task)} "Cancel"]]]]]))
 
-(defn component []
+(defn component [{:keys [on-save-event]}]
   (let [edit (re-frame/subscribe [:edit])]
-    (fn []
+    (fn [_]
       [render @edit
        {:on-update #(re-frame/dispatch [:edit-update %])
         :on-cancel #(routes/nav! routes/home)
         :on-save (fn [task]
-                   (re-frame/dispatch [:edit-save task])
+                   (re-frame/dispatch [on-save-event task])
                    (routes/nav! routes/home))}])))
