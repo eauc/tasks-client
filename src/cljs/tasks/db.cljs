@@ -1,16 +1,17 @@
 (ns tasks.db
-  (:require [cljs.spec :as spec]
-            [cljs.spec.impl.gen :as gen]
-            [clojure.test.check.generators]
+  (:require ;; [cljs.spec :as spec]
+            ;; [cljs.spec.impl.gen :as gen]
+            ;; [clojure.test.check.generators]
             [re-frame.core :as re-frame]
             [tasks.debug :as debug]))
 
-(def test-tasks
-  (->> (gen/sample (spec/gen :tasks.models.task/task) 1000)
-       (map-indexed #(assoc %2 :id (str %1)))))
+;; (def test-tasks
+;;   (->> (gen/sample (spec/gen :tasks.models.task/task) 1000)
+;;        (map-indexed #(assoc %2 :id (str %1)))))
 
 (def default-db
-  {:tasks (into [] test-tasks)
+  {;; :tasks (into [] test-tasks)
+   :tasks []
    :edit nil
    :filter ""
    :page nil
