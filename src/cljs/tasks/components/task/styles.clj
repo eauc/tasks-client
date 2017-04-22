@@ -43,7 +43,8 @@
                                  :font-style "italic"
                                  :text-decoration "line-through"}]]
    [:&.show-details
-    [:.tasks-view-action {:display "block"}]
+    [:.tasks-view-action {:display "block"}]]
+   [:&.show-body
     [:.tasks-view-body {:display "block"}]]
    [:&-action {:display "none"
                :background-color "white"
