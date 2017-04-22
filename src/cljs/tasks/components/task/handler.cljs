@@ -1,19 +1,31 @@
 (ns tasks.components.task.handler
   (:require [re-frame.core :as re-frame]
+            [tasks.db :as db]
+            [tasks.debug :refer [debug?]]
             [tasks.models.tasks :as tasks]
-            [tasks.routes :as routes]))
+            [tasks.routes :as routes]
+            ;; [clairvoyant.core :refer-macros [trace-forms]]
+            ;; [re-frame-tracer.core :refer [tracer]]
+            ))
+
+;; (trace-forms {:tracer (tracer :color "green")}
+
+(def interceptors
+  [(when debug? re-frame/debug)])
 
 (re-frame/reg-event-db
  :create-save
- (fn [db [_ task]]
+ interceptors
+ (fn create-save [db [_ task]]
+   [db [_ task]]
    (-> db
        (update-in [:tasks] #(cons task %))
        (assoc-in [:edit] nil))))
 
 (re-frame/reg-event-db
  :create-start
- (fn [db _]
-   (.log js/console "create-start" db)
+ interceptors
+ (fn create-start [db _]
    (-> db
        (assoc-in [:edit] {:id (str (.now js/Date))
                           :title ""
@@ -23,19 +35,22 @@
 
 (re-frame/reg-event-db
  :edit-update
- (fn [db [_ edit]]
+ interceptors
+ (fn edit-update [db [_ edit]]
    (assoc-in db [:edit] edit)))
 
 (re-frame/reg-event-db
  :edit-save
- (fn [db [_ task]]
+ interceptors
+ (fn edit-save [db [_ task]]
    (-> db
        (update-in [:tasks] tasks/update-task task)
        (assoc-in [:edit] nil))))
 
 (re-frame/reg-event-db
  :edit-start
- (fn [db [_ id]]
+ interceptors
+ (fn edit-start [db [_ id]]
    (let [tasks (:tasks db)
          task (first (filter #(= (:id %) id) tasks))]
      (if task
@@ -48,15 +63,20 @@
 
 (re-frame/reg-event-db
  :filter-update
- (fn [db [_ filter]]
+ interceptors
+ (fn filter-update [db [_ filter]]
    (assoc-in db [:filter] filter)))
 
 (re-frame/reg-event-db
  :tasks-update
- (fn [db [_ tasks]]
+ interceptors
+ (fn tasks-update [db [_ tasks]]
    (assoc-in db [:tasks] tasks)))
 
 (re-frame/reg-event-db
  :toggle-details
- (fn [db [_ show-details]]
+ interceptors
+ (fn toggle-details [db [_ show-details]]
    (assoc-in db [:show-details] show-details)))
+
+;; )

@@ -9,6 +9,7 @@
    {:dev {:source-paths ["src/cljs"]
           :figwheel {:on-jsload "tasks.core/mount-root"}
           :compiler {:asset-path "js/app"
+                     :closure-defines {"clairvoyant.core.devmode" true}
                      :main "tasks.core"
                      :output-to "resources/public/js/app.js"
                      :output-dir "resources/public/js/app/"
@@ -65,10 +66,12 @@
   :prep-tasks [["cljsbuild" "once" "prod"]
                ["garden" "once" "prod"]]
   :profiles
-  {:dev {:dependencies [[binaryage/devtools "0.9.4"]
-                        [com.cemerick/piggieback "0.2.1"]
+  {:dev {:dependencies [[org.clojars.stumitchell/clairvoyant "0.2.1"]
                         [devcards "0.2.3"]
+                        [binaryage/devtools "0.9.4"]
                         [figwheel-sidecar "0.5.10"]
+                        [com.cemerick/piggieback "0.2.1"]
+                        [day8/re-frame-tracer "0.1.1-SNAPSHOT"]
                         [org.clojure/test.check "0.9.0"]]
          :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
          :source-paths ["src/cljs"]}

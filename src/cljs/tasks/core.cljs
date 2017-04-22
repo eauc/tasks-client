@@ -8,6 +8,7 @@
             [tasks.routes :as routes]))
 
 (defn mount-root []
+  (re-frame/clear-subscription-cache!)
   (reagent/render [nav-view/render]
                   (.getElementById js/document "tasks-header"))
   (reagent/render [page.view/component]

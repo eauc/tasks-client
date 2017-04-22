@@ -1,15 +1,8 @@
 (ns tasks.components.page.handler
-  (:require [re-frame.core :as re-frame]))
+  (:require [re-frame.core :as re-frame]
+            [tasks.debug :refer [debug?]]))
 
 (re-frame/reg-event-db
  :page
+ [(when debug? re-frame/debug)]
  (fn [db [_ page]] (assoc-in db [:page] page)))
-
-;; (re-frame/reg-event-db
-;;  :start-create
-;;  (fn [db _] (-> db
-;;                 (assoc-in [:page] :edit)
-;;                 (assoc-in [:edit] {:id (str (.now js/Date))
-;;                                    :title ""
-;;                                    :body ""
-;;                                    :done false}))))

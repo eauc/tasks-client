@@ -6,7 +6,12 @@
             [tasks.models.tasks :as tasks]
             [re-frame.core :as re-frame]
             [secretary.core :as secretary]
-            [tasks.routes :as routes]))
+            [tasks.routes :as routes]
+            ;; [clairvoyant.core :refer-macros [trace-forms]]
+            ;; [re-frame-tracer.core :refer [tracer]]
+            ))
+
+;; (trace-forms {:tracer (tracer :color "orange")}
 
 (defn toggle-details-id [current new]
   (if (= current new) nil new))
@@ -36,7 +41,7 @@
   (let [filter (re-frame/subscribe [:filter])
         show-details (re-frame/subscribe [:show-details])
         tasks (re-frame/subscribe [:tasks-sorted])]
-    (fn []
+    (fn component-render []
       [render @tasks
        {:filter @filter
         :on-edit #(routes/nav! routes/edit {:id (:id %)})
@@ -44,3 +49,5 @@
         :on-update #(re-frame/dispatch [:tasks-update %])
         :show-details @show-details
         :toggle-details #(re-frame/dispatch [:toggle-details %])}])))
+
+;; )
