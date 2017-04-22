@@ -4,16 +4,16 @@
 (def create
   [:&-create {:background-color (:accent-color colors)
               :border 0
-              :border-radius "1em"
+              :border-radius "0.75em"
               :box-shadow "0 2px 3px 0 rgba(0,0,0,0.5)"
-              :bottom "5%"
+              :bottom "0.5em"
               :color (:text-primary-color colors)
               :cursor "pointer"
-              :height "2em"
+              :height "1.5em"
               :font-size "2em"
               :position "absolute"
-              :right "5%"
-              :width "2em"}
+              :right "0.5em"
+              :width "1.5em"}
    [:&:hover {:background-color (:dark-accent-color colors)}]
    [:&:active {:background-color (:darker-accent-color colors)}]])
 
