@@ -1,0 +1,15 @@
+{
+  "verbose": true,
+  "root": "resources/public",
+  "cacheId": "tasks",
+  "ignoreUrlParametersMatching": [ "/./" ],
+  "dynamicUrlToDependencies": {
+    "/": ["resources/public/index.html"]
+  },
+  "staticFileGlobs": [
+    "resources/public/index.html",
+    "resources/public/css/**.css",
+    "resources/public/js/**.js",
+    "resources/public/vendor/**"
+  ]
+}

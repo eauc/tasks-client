@@ -13,3 +13,5 @@ figwheel_server.log
 resources/public/js/
 .cljs_rhino_repl/
 resources/public/css/
+node_modules/
+resources/public/service-worker.js

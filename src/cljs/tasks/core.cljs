@@ -16,6 +16,7 @@
 
 (defn ^:export init []
   (debug/setup)
+  (when (not debug/debug?) (.registerServiceWorker js/window))
   (routes/app-routes)
   (re-frame/dispatch-sync [:initialize-db])
   (mount-root))

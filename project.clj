@@ -3,6 +3,7 @@
   :clean-targets ^{:protect false}
   ["resources/public/css"
    "resources/public/js"
+   "resources/public/service-worker.js"
    "target"]
   :cljsbuild
   {:builds
@@ -59,12 +60,16 @@
                 :pretty-print? false}}]}
   :main tasks.core
   :min-lein-version "2.0.0"
+  :npm {:dependencies [[sw-precache "5.1.0"]]
+        :package {:scripts {:sw-precache "sw-precache --config=\"sw_precache_config.json\" --verbose"}}}
   :plugins [[lein-cljsbuild "1.1.5"]
             [lein-figwheel "0.5.10"]
             [lein-garden "0.3.0"]
+            [lein-npm "0.6.2"]
             [lein-ring "0.11.0"]]
   :prep-tasks [["cljsbuild" "once" "prod"]
-               ["garden" "once" "prod"]]
+               ["garden" "once" "prod"]
+               ["npm" "run" "sw-precache"]]
   :profiles
   {:dev {:dependencies [[org.clojars.stumitchell/clairvoyant "0.2.1"]
                         [devcards "0.2.3"]
