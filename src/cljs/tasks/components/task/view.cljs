@@ -20,4 +20,6 @@
        "Edit"]
       [:button.tasks-view-action {:on-click #(on-delete task)}
        "Delete"]]
-     [:p.tasks-view-body (:body task)]]))
+     [:p.tasks-view-body
+      {:dangerouslySetInnerHTML
+       {:__html (-> (:body task) str js/marked)}}]]))
