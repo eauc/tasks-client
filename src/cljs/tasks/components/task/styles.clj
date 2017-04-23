@@ -22,7 +22,7 @@
             :flex-flow "column nowrap"}
    [:&-body {:min-height "8em"}]])
 
-(def list
+(def tasks-list
   [:&-list {:display "flex"
             :flex-flow "column nowrap"}
    [:&-filter {:display "flex"

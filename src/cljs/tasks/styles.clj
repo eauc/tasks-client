@@ -25,5 +25,5 @@
              :width "100%"}]
    task/create
    task/edit
-   task/list
+   task/tasks-list
    task/view])
