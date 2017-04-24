@@ -1,12 +1,15 @@
 (ns tasks.components.task.list
-  (:require [tasks.components.task.create :as task-create]
+  (:require [reagent.core :as reagent]
+            [re-frame.core :as re-frame]
+            [secretary.core :as secretary]
+            [tasks.components.form.input :as form-input]
+            [tasks.components.task.create :as task-create]
             [tasks.components.task.handler]
             [tasks.components.task.sub]
             [tasks.components.task.view :as task-view]
             [tasks.models.tasks :as tasks]
-            [re-frame.core :as re-frame]
-            [secretary.core :as secretary]
             [tasks.routes :as routes]
+            [tasks.utils :as utils]
             ;; [clairvoyant.core :refer-macros [trace-forms]]
             ;; [re-frame-tracer.core :refer [tracer]]
             ))
@@ -16,18 +19,19 @@
 (defn toggle-details-id [current new]
   (if (= current new) nil new))
 
-(defn filter-render [filter {:keys [on-filter]}]
+(defn render-filter-form [filter {:keys [on-filter]}]
   [:form.tasks-list-filter
    {:on-submit #(-> % .preventDefault)}
-   [:input {:type "text"
-            :placeholder "Filter"
-            :value filter
-            :on-change #(on-filter (-> % .-target .-value))}]])
+   [form-input/render :input
+    {:on-update on-filter
+     :placeholder "Filter"
+     :type "text"
+     :value filter}]])
 
 (defn render [tasks {:keys [filter on-update show-details toggle-details] :as props}]
   [:div.tasks-list
    [task-create/component]
-   [filter-render filter props]
+   [render-filter-form filter props]
    [:div.tasks-list-body
     (for [task tasks]
       ^{:key (:id task)}
@@ -45,7 +49,7 @@
       [render @tasks
        {:filter @filter
         :on-edit #(re-frame/dispatch [:nav routes/edit {:id (:id %)}])
-        :on-filter #(re-frame/dispatch [:filter-update %])
+        :on-filter (utils/debounce (fn [filter] (re-frame/dispatch [:filter-update filter])) 250)
         :on-update #(re-frame/dispatch [:tasks-update %])
         :show-details @show-details
         :toggle-details #(re-frame/dispatch [:toggle-details %])}])))
