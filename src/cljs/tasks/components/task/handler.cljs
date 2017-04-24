@@ -6,7 +6,8 @@
             [tasks.routes :as routes]
             ;; [clairvoyant.core :refer-macros [trace-forms]]
             ;; [re-frame-tracer.core :refer [tracer]]
-            ))
+
+            [tasks.debug :as debug]))
 
 ;; (trace-forms {:tracer (tracer :color "green")}
 
@@ -39,6 +40,13 @@
                                 :body ""
                                 :done false})
              (assoc-in [:page] :create))}))
+
+(re-frame/reg-event-fx
+  :current-list
+  [(re-frame/inject-cofx :storage-list)
+   interceptors]
+  (fn current-list [{:keys [db storage]} [_ list]]
+    {:db (merge db storage)}))
 
 (re-frame/reg-event-db
  :edit-update

@@ -2,11 +2,12 @@
   (:require [garden.def :refer [defstyles]]
             [tasks.styles.form :as form]
             [tasks.components.nav.styles :as nav]
-            [tasks.components.task.styles :as task]))
+            [tasks.components.task.styles :as task]
+            [tasks.styles.colors :refer [colors]]))
 
 (defstyles screen
   [:* {:font-family "Droid Sans"
-       :color "rgba(0,0,0,0.85)"}]
+       :color (:default-text colors)}]
   [:body {:padding 0
           :margin 0}]
   form/styles

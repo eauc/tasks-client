@@ -7,8 +7,8 @@
                     (reset! current-value (-> event .-target .-value))
                     (on-update @current-value))]
     (fn [_ {:keys [has-error] :as props}]
-      [input (merge props {:class (str class (if has-error " error"))
-                           :has-error nil
-                           :on-change on-change
-                           :on-update nil
-                           :value @current-value})])))
+      [input (-> props
+                 (merge {:class (str class (if has-error " error"))
+                         :on-change on-change
+                         :value @current-value})
+                 (dissoc :has-error :on-update))])))

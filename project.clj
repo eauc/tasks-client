@@ -93,28 +93,29 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    ;; Devcards
    :devcards
-   {:cljsbuild
-    {:builds
-     {:devcards {:source-paths ["src/cljs" "test/cljs"]
-                 :figwheel {:devcards true}
-                 :compiler {:asset-path "js/devcards"
-                            :main "tasks.core-test"
-                            :output-to "resources/public/js/devcards.js"
-                            :output-dir "resources/public/js/devcards/"
-                            :optimizations :none
-                            :preloads [devtools.preload]
-                            :pretty-print true}}}}
-    :figwheel {:server-port 3450}}
+   [:dev
+    {:cljsbuild
+     {:builds
+      {:devcards {:source-paths ["src/cljs" "test/cljs"]
+                  :figwheel {:devcards true}
+                  :compiler {:asset-path "js/devcards"
+                             :main "tasks.core-test"
+                             :output-to "resources/public/js/devcards.js"
+                             :output-dir "resources/public/js/devcards/"
+                             :optimizations :none
+                             :preloads [devtools.preload]
+                             :pretty-print true}}}}
+     :figwheel {:server-port 3450}}]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ;; Production
-   :production
-   {:cljsbuild
-    {:builds
-     {:app {:compiler {:asset-path "js"
-                       :closure-defines {goog.DEBUG false}
-                       :optimizations :advanced
-                       :pretty-print false}}}}}
+    ;; Production
+    :production
+    {:cljsbuild
+     {:builds
+      {:app {:compiler {:asset-path "js"
+                        :closure-defines {goog.DEBUG false}
+                        :optimizations :advanced
+                        :pretty-print false}}}}}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ;; Uberjar
-   :uberjar [:production]
-   :reply [:dev]})
+    ;; Uberjar
+    :uberjar [:production]
+    :reply [:dev]})

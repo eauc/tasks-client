@@ -5,6 +5,11 @@
             [re-frame.core :as re-frame]
             [tasks.debug :as debug]))
 
+(spec/def ::current-list (spec/and (complement empty?)
+                                   string?))
+
+(spec/def ::lists (spec/* ::current-list))
+
 (spec/def ::title string?)
 
 (spec/def ::edit-task
@@ -28,7 +33,13 @@
   :tasks.models.tasks/tasks)
 
 (spec/def ::db
-  (spec/keys :req-un [::edit ::filter ::page ::show-details ::tasks]))
+  (spec/keys :req-un [::current-list
+                      ::edit
+                      ::filter
+                      ::lists
+                      ::page
+                      ::show-details
+                      ::tasks]))
 
 (defn check-db-schema [db]
   (when (not (spec/valid? ::db db))
@@ -43,16 +54,18 @@
 ;;        (map-indexed #(assoc %2 :id (str %1)))))
 
 (def default-db
-  {;; :tasks (into [] test-tasks)
+  { ;; :tasks (into [] test-tasks)
    :tasks []
+   :current-list nil
    :edit nil
    :filter ""
+   :lists []
    :page nil
    :show-details nil})
 
 (re-frame/reg-event-fx
  :initialize-db
  [check-spec-interceptor
-  (re-frame/inject-cofx :storage)]
+  (re-frame/inject-cofx :storage-init)]
  (fn [{:keys [storage]} _]
-   {:db (debug/spy "default-db" (assoc default-db :tasks storage))}))
+   {:db (debug/spy "default-db" (merge default-db storage))}))

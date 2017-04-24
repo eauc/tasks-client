@@ -8,16 +8,24 @@
 ;; (trace-forms {:tracer (tracer :color "brown")}
 
 (re-frame/reg-sub
- :edit
- (fn edit [db _] (:edit db)))
+ :current-list
+ (fn edit [db _] (:current-list db)))
+
+(re-frame/reg-sub
+  :edit
+  (fn edit [db _] (:edit db)))
 
 (re-frame/reg-sub
  :filter
  (fn filter [db _] (:filter db)))
 
 (re-frame/reg-sub
- :show-details
- (fn show-details [db _] (:show-details db)))
+ :lists
+ (fn tasks [db _] (:lists db)))
+
+(re-frame/reg-sub
+  :show-details
+  (fn show-details [db _] (:show-details db)))
 
 (re-frame/reg-sub
  :tasks

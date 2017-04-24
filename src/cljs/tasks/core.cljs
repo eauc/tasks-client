@@ -9,7 +9,7 @@
 
 (defn mount-root []
   (re-frame/clear-subscription-cache!)
-  (reagent/render [nav-view/render]
+  (reagent/render [nav-view/component]
                   (.getElementById js/document "tasks-header"))
   (reagent/render [page.view/component]
                   (.getElementById js/document "tasks-body")))

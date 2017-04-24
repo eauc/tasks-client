@@ -1,7 +1,8 @@
 (ns tasks.styles.colors)
 
 (def colors
-  {:dark-primary-color    "#303F9F"
+  {:default-text          "rgba(0,0,0,0.85)"
+   :dark-primary-color    "#303F9F"
    :default-primary-color "#3F51B5"
    :light-primary-color   "#C5CAE9"
    :text-primary-color    "#FFFFFF"
