@@ -7,6 +7,7 @@
             [tasks.components.task.handler]
             [tasks.components.task.sub]
             [tasks.components.task.view :as task-view]
+            [tasks.debug :as debug]
             [tasks.models.tasks :as tasks]
             [tasks.routes :as routes]
             [tasks.utils :as utils]
@@ -19,19 +20,22 @@
 (defn toggle-details-id [current new]
   (if (= current new) nil new))
 
-(defn render-filter-form [filter {:keys [on-filter]}]
+(defn render-filter-form [tasks {:keys [filter on-filter on-update]}]
   [:form.tasks-list-filter
    {:on-submit #(-> % .preventDefault)}
    [form-input/render :input
     {:on-update on-filter
      :placeholder "Filter"
      :type "text"
-     :value filter}]])
+     :value filter}]
+   [:button.tasks-list-check-all
+    {:dangerouslySetInnerHTML {:__html "&#x2713;"}
+     :on-click #(on-update (tasks/toggle-done tasks))}]])
 
 (defn render [tasks {:keys [filter on-update show-details toggle-details] :as props}]
   [:div.tasks-list
    [task-create/component]
-   [render-filter-form filter props]
+   [render-filter-form tasks props]
    [:div.tasks-list-body
     (for [task tasks]
       ^{:key (:id task)}

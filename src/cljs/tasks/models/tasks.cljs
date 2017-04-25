@@ -18,6 +18,13 @@
 (defn update-task [tasks task]
   (map #(if (= (:id task) (:id %)) task %) tasks))
 
+(spec/fdef toggle-done
+           :args (spec/cat :list #(spec/valid? ::tasks %))
+           :ret ::tasks)
+(defn toggle-done [tasks]
+  (let [done (some-> tasks (first) (:done) (not))]
+    (mapv #(assoc % :done done) tasks)))
+
 (spec/fdef filter-with
            :args (spec/cat :list #(spec/valid? ::tasks %)
                            :filter string?)
@@ -29,9 +36,9 @@
                                      (str/replace #"\s+" "|")
                                      (str/replace #"\.+\*?" ".*"))))]
     (filter
-      #(or (re-find re-with (:title %))
-           (re-find re-with (:body %)))
-      tasks)))
+     #(or (re-find re-with (:title %))
+          (re-find re-with (:body %)))
+     tasks)))
 
 (spec/fdef sort-by-title
            :args (spec/cat :list #(spec/valid? ::tasks %))

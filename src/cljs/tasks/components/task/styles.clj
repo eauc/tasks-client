@@ -25,10 +25,18 @@
 (def tasks-list
   [:&-list {:display "flex"
             :flex-flow "column nowrap"}
-   [:&-filter {:display "flex"
-               :flex-flow "column nowrap"
+   [:&-filter {:align-items "center"
+               :display "flex"
+               :flex-flow "row nowrap"
                :flex-shrink 0
-               :border-bottom "1px solid rgba(0,0,0,0.2)"}]
+               :border-bottom "1px solid rgba(0,0,0,0.2)"}
+    [:input {:flex-grow 1}]]
+   [:&-check-all {:border-radius "1em"
+                  :font-weight "bold"
+                  :font-size "1.4em"
+                  :height "2em"
+                  :padding 0
+                  :width "2em"}]
    [:&-body {:flex-shrink 1
              :overflow-x "hidden"
              :overflow-y "auto"}]
