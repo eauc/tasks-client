@@ -3,10 +3,15 @@
             ;; [cljs.spec.impl.gen :as gen]
             ;; [clojure.test.check.generators]
             [re-frame.core :as re-frame]
-            [tasks.debug :as debug]))
+            [tasks.debug :as debug]
+            [tasks.models.list]
+            [tasks.models.task]
+            [tasks.models.tasks]))
 
-(spec/def ::current-list (spec/and (complement empty?)
-                                   string?))
+(spec/def ::list (spec/nilable :tasks.models.list/edit))
+
+(spec/def ::current-list
+  (spec/and (complement empty?) string?))
 
 (spec/def ::lists (spec/* ::current-list))
 
@@ -37,6 +42,7 @@
                       ::edit
                       ::filter
                       ::lists
+                      ::list-edit
                       ::page
                       ::show-details
                       ::tasks]))
@@ -60,6 +66,7 @@
    :edit nil
    :filter ""
    :lists []
+   :list-edit nil
    :page nil
    :show-details nil})
 

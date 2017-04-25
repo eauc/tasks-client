@@ -1,7 +1,7 @@
 (ns tasks.models.task-test
   (:require [cljs.spec.test :as stest]
             [cljs.test :as test :refer-macros [is testing use-fixtures]]
-            [devcards.core :as dc :refer-macros [defcard deftest]]
+            [devcards.core :as dc :refer-macros [deftest]]
             [tasks.models.task :as task]))
 
 (use-fixtures :once

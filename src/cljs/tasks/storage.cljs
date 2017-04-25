@@ -47,26 +47,33 @@
                                :lists lists
                                :tasks tasks})))
 
-(defn storage-list [{:keys [event] :as coeffects} _]
-  (let [[_ list] event
+(defn storage-list [{:keys [event] :as coeffects} default-list]
+  (let [[_ event-list] event
+        list (or default-list event-list)
         tasks (debug/spy "storage->tasks" (storage->tasks list))]
     (assoc coeffects :storage {:current-list list
                                :tasks tasks})))
 
 (re-frame/reg-cofx
-  :storage-init
-  storage-init)
+ :storage-init
+ storage-init)
 
 (re-frame/reg-cofx
-  :storage-list
-  storage-list)
+ :storage-list
+ storage-list)
+
+(re-frame/reg-fx
+ :storage-delete
+ (fn [id]
+   (.removeItem js/localStorage
+                (str storage-key-prefix id))))
 
 (re-frame/reg-sub
-  :storage
-  :<- [:tasks]
-  :<- [:current-list]
-  (fn storage-store [[tasks current-list] _]
-    (current-list->storage current-list)
-    (tasks->storage current-list tasks)))
+ :storage
+ :<- [:tasks]
+ :<- [:current-list]
+ (fn storage-store [[tasks current-list] _]
+   (current-list->storage current-list)
+   (tasks->storage current-list tasks)))
 
 ;; )

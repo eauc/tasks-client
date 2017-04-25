@@ -14,7 +14,7 @@
        [:input {:type "checkbox"
                 :checked (:done task)
                 :read-only true}]]
-      [:h3.tasks-view-title {:on-click #(toggle-details task)}
+      [:p.tasks-view-title {:on-click #(toggle-details task)}
        (:title task)]
       [:button.tasks-view-action {:on-click #(on-edit task)}
        "Edit"]

@@ -18,6 +18,14 @@
   (debug/spy "route edit")
   (re-frame/dispatch [:edit-start id]))
 
+(defroute list-create "/list/create" {}
+  (debug/spy "route list-create")
+  (re-frame/dispatch [:list-create-start]))
+
+(defroute list-edit "/list/edit/:id" [id]
+  (debug/spy "route list-edit")
+  (re-frame/dispatch [:list-edit-start id]))
+
 (defonce history (History.))
 
 (re-frame/reg-fx
