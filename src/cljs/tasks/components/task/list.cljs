@@ -26,6 +26,7 @@
    [form-input/render :input
     {:on-update on-filter
      :placeholder "Filter"
+     :spec string?
      :type "text"
      :value filter}]
    [:button.tasks-list-check-all

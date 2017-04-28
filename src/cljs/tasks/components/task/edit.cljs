@@ -6,45 +6,41 @@
             [tasks.routes :as routes]
             [tasks.utils :as utils]))
 
-(defn problem-for-field [problems field]
-  (filter #(= field (:path %)) problems))
-
-(defn field-has-problem [problems field]
-  (not (empty? (problem-for-field problems field))))
-
 (defn render [task {:keys [on-cancel on-update on-save]}]
-  (let [valid (spec/valid? :tasks.models.task/task task)
-        problems (:cljs.spec/problems (spec/explain-data :tasks.models.task/task task))]
+  (let [on-save-debounce (utils/debounce on-save 250)
+        on-submit (fn [event]
+                    (.preventDefault event)
+                    (on-save-debounce))
+        valid (spec/valid? :tasks.models.task/task task)]
     [:form {:class (if (not valid) "error")
-            :on-submit (fn [event]
-                         (.preventDefault event)
-                         (on-save task))}
+            :on-submit on-submit}
      [:fieldset
       [:legend "Edit Task"]
       [:div.tasks-edit
        [form-input/render :input
         {:autoFocus true
-         :has-error (field-has-problem problems [:title])
-         :on-update #(on-update (assoc-in task [:title] %))
+         :field [:title]
+         :on-update on-update
          :placeholder "Title"
+         :spec :tasks.models.task/title
          :type "text"
          :value (:title task)}]
        [form-input/render :textarea
         {:class "tasks-edit-body"
-         :has-error (field-has-problem problems [:body])
-         :on-update #(on-update (assoc-in task [:body] %))
+         :field [:body]
+         :on-update on-update
          :placeholder "Body"
+         :spec :tasks.models.task/body
          :value (:body task)}]
        [:div
         [:button {:type "submit"} "Save"]
-        [:button {:type "button"
-                  :on-click #(on-cancel task)} "Cancel"]]]]]))
+        [:button {:type "button" :on-click on-cancel} "Cancel"]]]]]))
 
 (defn component [{:keys [on-save-event]}]
   (let [edit (re-frame/subscribe [:edit])
         on-cancel #(re-frame/dispatch [:nav routes/home])
-        on-save #(re-frame/dispatch [on-save-event %])
-        on-update (utils/debounce (fn [task] (re-frame/dispatch [:edit-update task])) 250)]
+        on-save #(re-frame/dispatch [on-save-event])
+        on-update #(re-frame/dispatch [:edit-update %1 %2])]
     (fn [_]
       [render @edit
        {:on-cancel on-cancel

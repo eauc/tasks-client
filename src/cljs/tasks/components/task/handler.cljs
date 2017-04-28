@@ -7,7 +7,8 @@
             ;; [clairvoyant.core :refer-macros [trace-forms]]
             ;; [re-frame-tracer.core :refer [tracer]]
 
-            [tasks.debug :as debug]))
+            [tasks.debug :as debug]
+            [cljs.spec :as spec]))
 
 ;; (trace-forms {:tracer (tracer :color "green")}
 
@@ -23,11 +24,14 @@
 (re-frame/reg-event-fx
  :create-save
  interceptors
- (fn create-save [{:keys [db]} [_ task]]
-   {:db (-> db
-            (update-in [:tasks] #(cons task %))
-            (assoc-in [:edit] nil))
-    :nav {:route routes/home}}))
+ (fn create-save [{:keys [db]} _]
+   (let [task (:edit db)]
+     (if (spec/valid? :tasks.models.task/task task)
+       {:db (-> db
+                (update-in [:tasks] #(cons task %))
+                (assoc-in [:edit] nil))
+        :nav {:route routes/home}}
+       {}))))
 
 (re-frame/reg-event-fx
  :create-start
@@ -45,17 +49,20 @@
  :edit-update
  [interceptors
   (re-frame/path :edit)]
- (fn edit-update [db [_ edit]]
-   edit))
+ (fn edit-update [db [_ field value]]
+   (assoc-in db field value)))
 
 (re-frame/reg-event-fx
  :edit-save
  interceptors
- (fn edit-save [{:keys [db]} [_ task]]
-   {:db (-> db
-            (update-in [:tasks] tasks/update-task task)
-            (assoc-in [:edit] nil))
-    :nav {:route routes/home}}))
+ (fn edit-save [{:keys [db]} _]
+   (let [task (:edit db)]
+     (if (spec/valid? :tasks.models.task/task task)
+       {:db (-> db
+                (update-in [:tasks] tasks/update-task task)
+                (assoc-in [:edit] nil))
+        :nav {:route routes/home}}
+       {}))))
 
 (re-frame/reg-event-fx
  :edit-start

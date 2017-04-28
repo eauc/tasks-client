@@ -3,7 +3,7 @@
             [clojure.string :as str]))
 
 (spec/def ::name (spec/and string?
-                           (not (comp empty? str/trim))))
+                           (comp not empty? str/trim)))
 
 (spec/def ::new-name string?)
 

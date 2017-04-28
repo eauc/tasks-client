@@ -8,9 +8,9 @@
   "### Basic component to edit task list name"
 
   (fn [state-atom _]
-    (let [on-cancel #(debug/spy "Cancel!" %)
-          on-save #(debug/spy "Save!" %)
-          on-update #(swap! state-atom assoc :edit-list %)]
+    (let [on-cancel #(debug/spy "Cancel!")
+          on-save #(debug/spy "Save!" @state-atom)
+          on-update #(swap! state-atom assoc-in (concat [:edit-list] %1) %2)]
       [list-edit/render (:edit-list @state-atom)
        {:on-cancel on-cancel
         :on-save on-save
