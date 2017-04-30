@@ -3,6 +3,7 @@
             [cljs.test :as test :refer-macros [is testing use-fixtures]]
             [devcards.core :as dc :refer-macros [defcard-doc deftest mkdn-pprint-source]]
             [tasks.models.tasks :as tasks]
+            [tasks.utils-test :as utils-test]
             [cljs.pprint :refer [pprint]]))
 
 (use-fixtures :once
@@ -32,6 +33,9 @@
 (deftest tasks-model
   "Delete task in list by :id"
   (testing "delete-task"
+    (is (= true
+           (utils-test/check-result
+            (stest/check `tasks/delete-task utils-test/check-opts))))
     (is (= '({:id "40"
               :title "title1"
               :body "body1"
@@ -50,6 +54,9 @@
                                :done false}))))
   "Update task in list by :id"
   (testing "update-task"
+    (is (= true
+           (utils-test/check-result
+            (stest/check `tasks/update-task utils-test/check-opts))))
     (is (= '({:id "40"
               :title "title1"
               :body "body1"
@@ -76,6 +83,9 @@
 
   "Check/Uncheck all tasks :done"
   (testing "toggle-done"
+    (is (= true
+           (utils-test/check-result
+            (stest/check `tasks/toggle-done utils-test/check-opts))))
     (is (= []
            (tasks/toggle-done [])))
     (is (= '({:id "40"
@@ -107,6 +117,9 @@
         "Based on :done state for the first task"))
   "Filter list with :title or :body matching regexp"
   (testing "filter-with"
+    (is (= true
+           (utils-test/check-result
+            (stest/check `tasks/filter-with utils-test/check-opts))))
     (is (= '()
            (tasks/filter-with tasks-example "toto")))
     (is (= '({:id "42"
@@ -173,6 +186,9 @@
         "any number of '.' become '.*'"))
   "Sort list by title"
   (testing "sort-by-title"
+    (is (= true
+           (utils-test/check-result
+            (stest/check `tasks/sort-by-title utils-test/check-opts))))
     (is (= '()
            (tasks/sort-by-title
             '())))

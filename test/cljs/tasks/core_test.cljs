@@ -12,5 +12,6 @@
 
 (enable-console-print!)
 
-(run-tests 'tasks.models.task-test
+(run-tests 'tasks.models.list-test
+           'tasks.models.task-test
            'tasks.models.tasks-test)
