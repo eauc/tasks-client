@@ -14,14 +14,16 @@
 * save button should be disabled when task is invalid.
 * input fields should be red when in error."
   (fn [state_atom _]
-    (let [on-update (fn [field value]
+    (let [errors (debug/spy "errors" (task/describe-errors (:task @state_atom)))
+          on-update (fn [field value]
                       (debug/spy "update" [field value])
                       (swap! state_atom assoc-in (concat [:task] field) value))
           on-save #(println "Save!" @state_atom)
           on-cancel #(println "Cancel!")
           task (:task @state_atom)]
       [task-edit/render task
-       {:on-cancel on-cancel
+       {:errors errors
+        :on-cancel on-cancel
         :on-update on-update
         :on-save on-save}]))
 

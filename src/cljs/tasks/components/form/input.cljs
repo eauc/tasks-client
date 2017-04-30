@@ -3,16 +3,19 @@
             [tasks.utils :as utils]
             [cljs.spec :as spec]))
 
-(defn render [input {:keys [class field on-update spec value] :as base-props}]
+(defn render [input {:keys [class field label on-update value] :as base-props}]
   (let [current-value (reagent/atom value)
         on-update-debounce (utils/debounce on-update 250)
         on-change (fn [event]
                     (reset! current-value (-> event .-target .-value))
                     (on-update-debounce field @current-value))
         props (-> base-props
-                  (dissoc :field :has-error :on-update :spec)
+                  (dissoc :field :error :label :on-update :spec)
+                  (assoc :placeholder label)
                   (assoc :on-change on-change))]
-    (fn [_ _]
-      (let [has-error (not (spec/valid? spec @current-value))]
-        [input (merge props {:class (str class (if has-error " error"))
-                             :value @current-value})]))))
+    (fn [_ {:keys [error]}]
+      [:div.tasks-input {:class (if error "error")}
+       (when label [:label label])
+       [input (merge props {:value @current-value})]
+       [:p.tasks-input-error
+        (or error "No error")]])))

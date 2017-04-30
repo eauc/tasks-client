@@ -50,3 +50,17 @@
        (remove #(= old-name %))
        (sort)
        (into [])))
+
+(spec/fdef describe-errors
+           :args (spec/cat :edit ::edit
+                           :lists ::lists)
+           :ret map?)
+(defn describe-errors
+  "Return a map of validation errors message for a list edit"
+  [edit lists]
+  (let [new-name (:new-name edit)
+        changed (not (= new-name (:current-name edit)))]
+    (cond
+      (not (spec/valid? ::name (:new-name edit))) {:new-name "Name should be a non-empty string"}
+      (and changed (some #{new-name} lists)) {:new-name "A tasks list with this name already exists"}
+      :else {})))

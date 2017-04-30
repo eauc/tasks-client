@@ -69,4 +69,38 @@
             "courses"
             "default"
             "new"]
-           (list-model/rename lists-example "check" "new")))))
+           (list-model/rename lists-example "check" "new"))))
+  "Return a map of validation errors message for a list edit"
+  (testing "describe-errors"
+    (is (= {}
+           (list-model/describe-errors {:new-name "toto"
+                                        :current-name ""} []))
+        "Create - empty list")
+    (is (= {}
+           (list-model/describe-errors {:new-name "toto"
+                                        :current-name ""} ["tata" "titi"]))
+        "Create - no-conflict list")
+    (is (= {:new-name "Name should be a non-empty string"}
+           (list-model/describe-errors {:new-name ""
+                                        :current-name ""} ["tata" "titi"]))
+        "Create - invalid new name")
+    (is (= {:new-name "A tasks list with this name already exists"}
+           (list-model/describe-errors {:new-name "titi"
+                                        :current-name ""} ["tata" "titi"]))
+        "Create - already exists")
+    (is (= {}
+           (list-model/describe-errors {:new-name "titi"
+                                        :current-name "titi"} ["tata" "titi"]))
+        "Edit - unchanged")
+    (is (= {}
+           (list-model/describe-errors {:new-name "toto"
+                                        :current-name "titi"} ["tata" "titi"]))
+        "Edit - no-conflict")
+    (is (= {:new-name "Name should be a non-empty string"}
+           (list-model/describe-errors {:new-name ""
+                                        :current-name "titi"} ["tata" "titi"]))
+        "Edit - invalid new name")
+    (is (= {:new-name "A tasks list with this name already exists"}
+           (list-model/describe-errors {:new-name "tata"
+                                        :current-name "titi"} ["tata" "titi"]))
+        "Edit - already exists")))

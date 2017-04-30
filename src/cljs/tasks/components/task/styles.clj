@@ -30,7 +30,8 @@
                :flex-flow "row nowrap"
                :flex-shrink 0
                :border-bottom "1px solid rgba(0,0,0,0.2)"}
-    [:input {:flex-grow 1}]]
+    [:.tasks-input {:flex-grow 1}]
+    [:.tasks-input-error {:display "none"}]]
    [:&-check-all {:border-radius "1em"
                   :font-weight "bold"
                   :font-size "1.4em"

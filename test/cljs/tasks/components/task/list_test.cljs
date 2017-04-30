@@ -24,7 +24,7 @@
                     (tasks/filter-with (:filter @state_atom))
                     (tasks/sort-by-title))
           show-details (:show-details @state_atom)
-          on-filter #(swap! state_atom assoc-in [:filter] %)
+          on-filter #(swap! state_atom assoc-in [:filter] %2)
           on-update #(swap! state_atom assoc-in [:tasks] %)
           toggle-details #(swap! state_atom assoc-in [:show-details] %)]
       [:div {:style {:border "1px solid rgba(0,0,0,0.8)"

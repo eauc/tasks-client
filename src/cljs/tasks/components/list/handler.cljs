@@ -23,8 +23,10 @@
  :list-create
  interceptors
  (fn list-create [{:keys [db]} _]
-   (let [new-name (get-in db [:list-edit :new-name])]
-     (if (spec/valid? :tasks.models.list/name new-name)
+   (let [edit (:list-edit db)
+         lists (:lists db)
+         new-name (:new-name edit)]
+     (if (empty? (list-model/describe-errors edit lists))
        {:db (-> db
                 (assoc :list-edit nil)
                 (assoc :current-list new-name)
@@ -72,12 +74,16 @@
  :list-save
  interceptors
  (fn list-save [{:keys [db]} _]
-   (let [new-name (get-in db [:list-edit :new-name])
-         current-name (get-in db [:list-edit :current-name])]
-     {:db (-> db
-              (assoc :list-edit nil)
-              (assoc :current-list new-name)
-              (update-in [:lists]
-                         #(list-model/rename % current-name new-name)))
-      :nav {:route routes/home}
-      :storage-delete current-name})))
+   (let [edit (:list-edit db)
+         lists (:lists db)
+         current-name (:current-name edit)
+         new-name (:new-name edit)]
+     (if (empty? (list-model/describe-errors edit lists))
+       {:db (-> db
+                (assoc :list-edit nil)
+                (assoc :current-list new-name)
+                (update-in [:lists]
+                           #(list-model/rename % current-name new-name)))
+        :nav {:route routes/home}
+        :storage-delete current-name}
+       {}))))

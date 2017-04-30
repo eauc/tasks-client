@@ -24,9 +24,9 @@
   [:form.tasks-list-filter
    {:on-submit #(-> % .preventDefault)}
    [form-input/render :input
-    {:on-update on-filter
+    {:field [:filter]
+     :on-update on-filter
      :placeholder "Filter"
-     :spec string?
      :type "text"
      :value filter}]
    [:button.tasks-list-check-all
@@ -54,7 +54,7 @@
       [render @tasks
        {:filter @filter
         :on-edit #(re-frame/dispatch [:nav routes/edit {:id (:id %)}])
-        :on-filter (utils/debounce (fn [filter] (re-frame/dispatch [:filter-update filter])) 250)
+        :on-filter #(re-frame/dispatch [:filter-update %2])
         :on-update #(re-frame/dispatch [:tasks-update %])
         :show-details @show-details
         :toggle-details #(re-frame/dispatch [:toggle-details %])}])))

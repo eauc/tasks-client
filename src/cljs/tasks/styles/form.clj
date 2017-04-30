@@ -10,12 +10,10 @@
    [:legend {:font-style "italic"
              :opacity 0.8}]
    [:input :textarea
-    {:margin "1em"
+    {:margin "0"
      :padding "0.8em"
      :border "1px solid rgba(0,0,0,0.3)"
-     :border-radius "3px"}
-    [:&.error {:border-color "red"}
-     [:&:focus { :outline-color "red"}]]]
+     :border-radius "3px"}]
    [:button {:background-color "white"
              :border "1px solid rgba(0,0,0,0.5)"
              :border-radius "3px"
@@ -25,4 +23,18 @@
    [:&.error
     [(button (attr= :type "submit"))
      {:opacity 0.3
-      :pointer-events "none"}]]])
+      :pointer-events "none"}]]
+   [:.tasks-input {:display "flex"
+                   :flex-flow "column nowrap"
+                   :margin "0.5em 0"
+                   :padding "0 1em"}
+    [:label {:margin-bottom "0.25em"}]
+    [:&-error {:font-size "0.8em"
+               :font-style "italic"
+               :font-weight "bold"
+               :color "transparent"
+               :margin "0.25em 0 0 0"}]
+    [:&.error
+     [:input {:border-color "red"}
+      [:&:focus { :outline-color "red"}]]
+     [:.tasks-input-error {:color "rgba(255,0,0,0.85)"}]]]])

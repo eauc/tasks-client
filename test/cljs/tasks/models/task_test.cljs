@@ -26,4 +26,31 @@
                    {:id "42"
                     :title "title"
                     :body "body"
-                    :done true}))))))
+                    :done true})))))
+  "Return a map of validation errors message for a task edit"
+  (testing "describe-errors"
+    (is (= {}
+           (task/describe-errors
+            {:id "42"
+             :title "title"
+             :body "body"
+             :done false})))
+    (is (= {:title "Title should be a non-empty string"}
+           (task/describe-errors
+            {:id "42"
+             :title ""
+             :body "body"
+             :done false})))
+    (is (= {:body "Body should be a string"}
+           (task/describe-errors
+            {:id "42"
+             :title "title"
+             :body 42
+             :done false})))
+    (is (= {:title "Title should be a non-empty string"
+            :body "Body should be a string"}
+           (task/describe-errors
+            {:id "42"
+             :title 71
+             :body 42
+             :done false})))))
