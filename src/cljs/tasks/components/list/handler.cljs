@@ -54,6 +54,15 @@
               (update-in [:lists] #(list-model/delete % list)))
       :storage-delete list})))
 
+(re-frame/reg-event-db
+ :list-delete-confirm
+ interceptors
+ (fn current-list [db [_ name]]
+   (assoc db :prompt {:type :confirm
+                      :message (str "Are you sure you want to delete \"" name "\" list ?")
+                      :value name
+                      :on-validate [:list-delete]})))
+
 (re-frame/reg-event-fx
  :list-edit-start
  interceptors

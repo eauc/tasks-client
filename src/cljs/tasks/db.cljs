@@ -4,6 +4,7 @@
             ;; [clojure.test.check.generators]
             [re-frame.core :as re-frame]
             [tasks.debug :as debug]
+            [tasks.components.prompt.db]
             [tasks.models.list]
             [tasks.models.task]
             [tasks.models.tasks]))
@@ -31,6 +32,9 @@
 (spec/def ::page
   (spec/nilable keyword?))
 
+(spec/def ::prompt
+  (spec/nilable :tasks.components.prompt.db/prompt))
+
 (spec/def ::show-details
   (spec/nilable :tasks.models.task/id))
 
@@ -44,6 +48,7 @@
                       ::lists
                       ::list-edit
                       ::page
+                      ::prompt
                       ::show-details
                       ::tasks]))
 
@@ -68,6 +73,7 @@
    :lists []
    :list-edit nil
    :page nil
+   :prompt nil
    :show-details nil})
 
 (re-frame/reg-event-fx

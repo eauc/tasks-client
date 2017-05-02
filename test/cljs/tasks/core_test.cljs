@@ -1,6 +1,7 @@
 (ns tasks.core-test
   (:require [tasks.components.list.edit-test]
             [tasks.components.nav.view-test]
+            [tasks.components.prompt.view-test]
             [tasks.components.task.create-test]
             [tasks.components.task.edit-test]
             [tasks.components.task.list-test]

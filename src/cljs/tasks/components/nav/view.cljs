@@ -1,17 +1,9 @@
 (ns tasks.components.nav.view
-  (:require [reagent.core :as reagent]
-            [re-frame.core :as re-frame]
+  (:require [re-frame.core :as re-frame]
             [tasks.components.nav.menu :as menu-view]
-            [tasks.routes :as routes]
-            ;; [clairvoyant.core :refer-macros [trace-forms]]
-            ;; [re-frame-tracer.core :refer [tracer]]
-
-            [tasks.debug :as debug]))
-
-;; (trace-forms {:tracer (tracer :color "orange")}
+            [tasks.routes :as routes]))
 
 (defn render [{:keys [current-list lists on-edit on-delete] :as props}]
-  (debug/spy "render" current-list)
   [:div.tasks-nav
    [menu-view/render lists props]
    [:div.tasks-nav-header
@@ -27,7 +19,7 @@
   (let [current-list (re-frame/subscribe [:current-list])
         lists (re-frame/subscribe [:lists])
         on-create #(re-frame/dispatch [:nav routes/list-create])
-        on-delete #(re-frame/dispatch [:list-delete %])
+        on-delete #(re-frame/dispatch [:list-delete-confirm %])
         on-edit #(re-frame/dispatch [:nav routes/list-edit {:id %}])
         on-list #(re-frame/dispatch [:list-current %])]
     (fn component []
@@ -37,5 +29,3 @@
                :on-delete on-delete
                :on-edit on-edit
                :on-list on-list}])))
-
-;; )

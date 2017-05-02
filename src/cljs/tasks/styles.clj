@@ -3,6 +3,7 @@
             [tasks.styles.form :as form]
             [tasks.components.list.styles :as list]
             [tasks.components.nav.styles :as nav]
+            [tasks.components.prompt.styles :as prompt]
             [tasks.components.task.styles :as task]
             [tasks.styles.colors :refer [colors]]))
 
@@ -28,6 +29,7 @@
              :position "relative"
              :width "100%"}]
    list/edit
+   prompt/styles
    task/create
    task/edit
    task/tasks-list

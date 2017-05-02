@@ -1,7 +1,6 @@
 (ns tasks.components.form.input
   (:require [reagent.core :as reagent]
-            [tasks.utils :as utils]
-            [cljs.spec :as spec]))
+            [tasks.utils :as utils]))
 
 (defn render [input {:keys [class field label on-update value] :as base-props}]
   (let [current-value (reagent/atom value)
@@ -14,7 +13,7 @@
                   (assoc :placeholder label)
                   (assoc :on-change on-change))]
     (fn [_ {:keys [error]}]
-      [:div.tasks-input {:class (if error "error")}
+      [:div.tasks-input {:class (str class (if error "error"))}
        (when label [:label label])
        [input (merge props {:value @current-value})]
        [:p.tasks-input-error
