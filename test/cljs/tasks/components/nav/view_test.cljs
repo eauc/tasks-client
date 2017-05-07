@@ -4,11 +4,11 @@
             [tasks.components.nav.view :as nav-view]
             [tasks.debug :as debug]))
 
-(defcard-rg nav-view*
+(defcard-rg nav-view
   "### Top nav"
 
   (fn [state_atom _]
-    (let [on-list #(swap! state_atom assoc :current-list %)
+    (let [on-list #(swap! state_atom assoc-in [:tasks-list :name] %)
           state @state_atom]
       [nav-view/render
        (merge state {:on-create #(debug/spy "on-create")
@@ -17,10 +17,10 @@
                      :on-list on-list})]))
 
   (reagent/atom
-    {:current-list "current list"
-     :lists ["default"
-             "courses"
-             "check"
-             "boulot"]})
+   {:tasks-list {:name "current list"}
+    :tasks-lists-names ["default"
+                        "courses"
+                        "check"
+                        "boulot"]})
 
   {:inspect-data true})

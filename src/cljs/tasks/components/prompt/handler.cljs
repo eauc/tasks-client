@@ -1,15 +1,11 @@
 (ns tasks.components.prompt.handler
   (:require [re-frame.core :as re-frame]
             [tasks.db :as db]
-            [tasks.debug :as debug :refer [debug?]]))
-
-(def interceptors
-  [db/check-spec-interceptor
-   (when debug? re-frame/debug)])
+            [tasks.debug :as debug]))
 
 (re-frame/reg-event-fx
  :prompt-cancel
- [interceptors
+ [db/default-interceptors
   (re-frame/path :prompt)]
  (fn prompt-cancel [{:keys [db]}]
    (let [fx {:db nil}
@@ -20,12 +16,11 @@
 
 (re-frame/reg-event-fx
  :prompt-validate
- [interceptors
+ [db/default-interceptors
   (re-frame/path :prompt)]
  (fn prompt-cancel [{:keys [db]}]
    (let [fx {:db nil}
          on-validate (:on-validate db)
-         type (:type db)
          value (:value db)]
      (if on-validate
        (assoc fx :dispatch (conj on-validate value))
@@ -33,14 +28,14 @@
 
 (re-frame/reg-event-db
  :prompt-update
- [interceptors
+ [db/default-interceptors
   (re-frame/path :prompt)]
  (fn prompt-update [db [_ value]]
    (assoc db :value value)))
 
 (re-frame/reg-event-fx
  :prompt-test
- interceptors
+ db/default-interceptors
  (fn prompt-test [_ event]
    (debug/spy "prompt-test" event)
    {}))

@@ -10,21 +10,21 @@
   (debug/spy "route home")
   (re-frame/dispatch [:page :home]))
 
-(defroute create "/create" {}
+(defroute task-create "/task/create" {}
   (debug/spy "route create")
-  (re-frame/dispatch [:create-start]))
+  (re-frame/dispatch [:task-create-start]))
 
-(defroute edit "/edit/:id" [id]
+(defroute task-edit "/task/edit/:id" [id]
   (debug/spy "route edit")
-  (re-frame/dispatch [:edit-start id]))
+  (re-frame/dispatch [:task-edit-start id]))
 
-(defroute list-create "/list/create" {}
+(defroute tasks-list-create "/list/create" {}
   (debug/spy "route list-create")
-  (re-frame/dispatch [:list-create-start]))
+  (re-frame/dispatch [:tasks-list-create-start]))
 
-(defroute list-edit "/list/edit/:id" [id]
+(defroute tasks-list-edit "/list/edit/:name" [name]
   (debug/spy "route list-edit")
-  (re-frame/dispatch [:list-edit-start id]))
+  (re-frame/dispatch [:tasks-list-edit-start name]))
 
 (defonce history (History.))
 

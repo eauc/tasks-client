@@ -2,34 +2,34 @@
   (:require [re-frame.core :as re-frame]
             [tasks.components.page.handler]
             [tasks.components.page.sub]
-            [tasks.storage]
-            [tasks.components.task.list :as task-list]
-            [tasks.components.task.edit :as task-edit]
-            [tasks.components.list.edit :as list-edit]))
+            [tasks.components.task-edit.view :as task-edit-view]
+            [tasks.components.tasks-list.view :as tasks-list-view]
+            [tasks.components.tasks-list-edit.view :as tasks-list-edit-view]
+            [tasks.storage]))
 
 (defn render-home []
-  [task-list/component])
+  [tasks-list-view/component])
 
-(defn render-edit [props]
+(defn render-task-edit [props]
   [:div
-   [task-edit/component props]])
+   [task-edit-view/component props]])
 
-(defn render-list-edit [props]
+(defn render-tasks-list-edit [props]
   [:div
-   [list-edit/component props]])
+   [tasks-list-edit-view/component props]])
 
 (defn render [page]
   (case page
     :home [render-home]
-    :create [render-edit {:on-save-event :create-save}]
-    :edit [render-edit {:on-save-event :edit-save}]
-    :list-create [render-list-edit {:on-save-event :list-create}]
-    :list-edit [render-list-edit {:on-save-event :list-save}]
+    :task-create [render-task-edit {:on-save-event :task-create-save}]
+    :task-edit [render-task-edit {:on-save-event :task-edit-save}]
+    :tasks-list-create [render-tasks-list-edit {:on-save-event :tasks-list-create-save}]
+    :tasks-list-edit [render-tasks-list-edit {:on-save-event :tasks-list-edit-save}]
     [:div "Undefined page"]))
 
 (defn component []
   (let [page (re-frame/subscribe [:page])
         storage (re-frame/subscribe [:storage])]
-    (fn []
+    (fn page-component []
       @storage
       [render @page])))

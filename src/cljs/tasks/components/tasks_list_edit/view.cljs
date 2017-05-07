@@ -1,12 +1,10 @@
-(ns tasks.components.list.edit
-  (:require [cljs.spec :as spec]
-            [re-frame.core :as re-frame]
+(ns tasks.components.tasks-list-edit.view
+  (:require [re-frame.core :as re-frame]
             [tasks.components.form.input :as form-input]
-            [tasks.components.list.handler]
-            [tasks.components.list.sub]
+            [tasks.components.tasks-list-edit.handler]
+            [tasks.components.tasks-list-edit.sub]
             [tasks.routes :as routes]
-            [tasks.utils :as utils]
-            [tasks.debug :as debug]))
+            [tasks.utils :as utils]))
 
 (defn render [edit {:keys [on-cancel on-save on-update]}]
   (let [on-save-debounce (utils/debounce on-save 250)
@@ -32,11 +30,11 @@
          [:button {:type "button" :on-click on-cancel} "Cancel"]]]])))
 
 (defn component [{:keys [on-save-event]}]
-  (let [edit (re-frame/subscribe [:list-edit])
-        errors (re-frame/subscribe [:list-edit-errors])
+  (let [edit (re-frame/subscribe [:tasks-list-edit])
+        errors (re-frame/subscribe [:tasks-list-edit-errors])
         on-cancel #(re-frame/dispatch [:nav routes/home])
         on-save #(re-frame/dispatch [on-save-event])
-        on-update #(re-frame/dispatch [:list-edit-update %1 %2])]
+        on-update #(re-frame/dispatch [:tasks-list-edit-update %1 %2])]
     (fn []
       [render @edit {:errors @errors
                      :on-cancel on-cancel

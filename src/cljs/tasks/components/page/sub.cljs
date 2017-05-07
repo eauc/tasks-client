@@ -3,4 +3,5 @@
 
 (re-frame/reg-sub
  :page
- (fn [db _] (:page db)))
+ (fn page-sub [db _]
+   (:page db)))

@@ -1,11 +1,9 @@
 (ns tasks.components.task.view-test
   (:require [cljs.spec :as spec]
             [cljs.spec.impl.gen :as gen]
-            [clojure.test.check.generators]
             [devcards.core :as dc :refer-macros [defcard-rg]]
             [reagent.core :as reagent]
-            [tasks.components.task.view :as task-view]
-            [tasks.models.task :as task]))
+            [tasks.components.task.view :as task-view]))
 
 (defcard-rg task-view
   "### Basic task view
@@ -22,7 +20,7 @@
       :toggle-details #(swap! state_atom update-in [:show-details] not)}])
 
   (reagent/atom
-    {:task (gen/generate (spec/gen :tasks.models.task/task))
+    {:task (gen/generate (spec/gen :tasks.specs.task/task))
      :show-details false})
 
   {:inspect-data true})

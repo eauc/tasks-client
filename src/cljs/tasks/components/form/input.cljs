@@ -12,7 +12,7 @@
                   (dissoc :field :error :label :on-update :spec)
                   (assoc :placeholder label)
                   (assoc :on-change on-change))]
-    (fn [_ {:keys [error]}]
+    (fn input-render [_ {:keys [error]}]
       [:div.tasks-input {:class (str class (if error "error"))}
        (when label [:label label])
        [input (merge props {:value @current-value})]

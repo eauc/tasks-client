@@ -1,49 +1,7 @@
 (ns tasks.components.task.styles
-  (:require [tasks.styles.colors :refer [colors]]))
+  (:require [tasks.styles.colors :refer [borders]]))
 
-(def create
-  [:&-create {:background-color (:accent-color colors)
-              :border 0
-              :border-radius "0.75em"
-              :box-shadow "0 2px 3px 0 rgba(0,0,0,0.5)"
-              :bottom "0.5em"
-              :color (:text-primary-color colors)
-              :cursor "pointer"
-              :height "1.5em"
-              :font-size "2em"
-              :position "absolute"
-              :right "0.5em"
-              :width "1.5em"}
-   [:&:hover {:background-color (:dark-accent-color colors)}]
-   [:&:active {:background-color (:darker-accent-color colors)}]])
-
-(def edit
-  [:&-edit {:display "flex"
-            :flex-flow "column nowrap"}
-   [:&-body {:min-height "8em"}]])
-
-(def tasks-list
-  [:&-list {:display "flex"
-            :flex-flow "column nowrap"}
-   [:&-filter {:align-items "center"
-               :display "flex"
-               :flex-flow "row nowrap"
-               :flex-shrink 0
-               :border-bottom "1px solid rgba(0,0,0,0.2)"}
-    [:.tasks-input {:flex-grow 1}]
-    [:.tasks-input-error {:display "none"}]]
-   [:&-check-all {:border-radius "1em"
-                  :font-weight "bold"
-                  :font-size "1.4em"
-                  :height "2em"
-                  :padding 0
-                  :width "2em"}]
-   [:&-body {:flex-shrink 1
-             :overflow-x "hidden"
-             :overflow-y "auto"}]
-   [:.tasks-view {:border-bottom "1px solid rgba(0,0,0,0.2)"}]])
-
-(def view
+(def task-styles
   [:&-view {:user-select "none"}
    [:&-header {:align-items "center"
                :display "flex"
@@ -57,7 +15,7 @@
     [:.tasks-view-body {:display "block"}]]
    [:&-action {:display "none"
                :background-color "white"
-               :border "1px solid rgba(0,0,0,0.5)"
+               :border (:default borders)
                :border-radius "3px"
                :cursor "pointer"
                :margin "0 0.5em"

@@ -1,7 +1,7 @@
 (ns tasks.components.prompt.styles
-  (:require [tasks.styles.colors :refer [colors]]))
+  (:require [tasks.styles.colors :refer [borders colors]]))
 
-(def styles
+(def prompt-styles
   [:&-prompt {:align-items "center"
               :background-color "rgba(0,0,0,0.3)"
               :bottom 0
@@ -16,7 +16,7 @@
    [:&.hidden {:opacity 0
                :pointer-events "none"}]
    [:&-form {:background-color "white"
-             :border "1px solid rgba(0,0,0,0.3)"
+             :border (:default-light borders)
              :border-radius "3px"
              :box-shadow "2px 2px 3px 1px rgba(0,0,0,0.2)"
              :display "flex"
@@ -30,11 +30,6 @@
    [:&-actions {:display "flex"
                 :flex-flow "row nowrap"
                 :justify-content "center"
-                :margin "0.5em 0"}]
-   [:&-ok {:background-color (:accent-color colors)
-           :border-color "rgba(0,0,0,0.3)"
-           :color (:text-primary-color colors)
-           :margin "0 0.5em"
-           :width "5em"}]
-   [:&-cancel {:margin "0 0.5em"
-               :width "5em"}]])
+                :margin "0.5em 0"}
+    [:button {:margin "0 0.5em"
+              :width "5em"}]]])

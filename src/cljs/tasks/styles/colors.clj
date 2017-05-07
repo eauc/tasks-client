@@ -12,3 +12,7 @@
    :primary-text-color    "#212121"
    :secondary-text-color  "#757575"
    :divider-color         "#BDBDBD"})
+
+(def borders
+  {:default-light "1px solid rgba(0,0,0,0.3)"
+   :default "1px solid rgba(0,0,0,0.5)"})

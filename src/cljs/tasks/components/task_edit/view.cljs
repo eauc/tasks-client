@@ -1,17 +1,17 @@
-(ns tasks.components.task.edit
-  (:require [cljs.spec :as spec]
-            [re-frame.core :as re-frame]
+(ns tasks.components.task-edit.view
+  (:require [re-frame.core :as re-frame]
             [tasks.components.form.input :as form-input]
+            [tasks.components.task-edit.handler]
+            [tasks.components.task-edit.sub]
             [tasks.routes :as routes]
-            [tasks.utils :as utils]
-            [tasks.debug :as debug]))
+            [tasks.utils :as utils]))
 
 (defn render [task {:keys [errors on-cancel on-update on-save]}]
   (let [on-save-debounce (utils/debounce on-save 250)
         on-submit (fn [event]
                     (.preventDefault event)
                     (on-save-debounce))]
-    [:form {:class (if (not (empty? errors)) "error")
+    [:form {:class (if-not (empty? errors) "error")
             :on-submit on-submit}
      [:fieldset
       [:legend "Edit Task"]
@@ -36,13 +36,13 @@
         [:button {:type "button" :on-click on-cancel} "Cancel"]]]]]))
 
 (defn component [{:keys [on-save-event]}]
-  (let [edit (re-frame/subscribe [:edit])
-        errors (re-frame/subscribe [:edit-errors])
+  (let [task-edit (re-frame/subscribe [:task-edit])
+        errors (re-frame/subscribe [:task-edit-errors])
         on-cancel #(re-frame/dispatch [:nav routes/home])
         on-save #(re-frame/dispatch [on-save-event])
-        on-update #(re-frame/dispatch [:edit-update %1 %2])]
-    (fn [_]
-      [render @edit
+        on-update #(re-frame/dispatch [:task-edit-update %1 %2])]
+    (fn task-edit-component [_]
+      [render @task-edit
        {:errors @errors
         :on-cancel on-cancel
         :on-save on-save

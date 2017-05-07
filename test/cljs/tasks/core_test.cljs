@@ -1,18 +1,20 @@
 (ns tasks.core-test
-  (:require [tasks.components.list.edit-test]
-            [tasks.components.nav.view-test]
+  (:require [tasks.components.nav.view-test]
             [tasks.components.prompt.view-test]
-            [tasks.components.task.create-test]
-            [tasks.components.task.edit-test]
-            [tasks.components.task.list-test]
             [tasks.components.task.view-test]
-            [tasks.models.list-test]
+            [tasks.components.task-edit.view-test]
+            [tasks.components.tasks-list.create-test]
+            [tasks.components.tasks-list.view-test]
+            [tasks.components.tasks-list-edit.view-test]
             [tasks.models.task-test]
-            [tasks.models.tasks-test]
+            [tasks.models.task-edit-test]
+            [tasks.models.tasks-list-test]
+            [tasks.models.tasks-list-edit-test]
             [cljs.test :refer-macros [run-tests]]))
 
 (enable-console-print!)
 
-(run-tests 'tasks.models.list-test
-           'tasks.models.task-test
-           'tasks.models.tasks-test)
+(run-tests 'tasks.models.task-test
+           'tasks.models.task-edit-test
+           'tasks.models.tasks-list-test
+           'tasks.models.tasks-list-edit-test)

@@ -1,9 +1,7 @@
 (ns tasks.components.nav.styles
-  (:require [tasks.styles.colors :refer [colors]]))
+  (:require [tasks.styles.colors :refer [borders colors]]))
 
-(def border "1px solid rgba(0,0,0,0.3)")
-
-(def styles
+(def nav-styles
   [:&-nav {:align-items "stretch"
            :background-color (:default-primary-color colors)
            :display "flex"
@@ -18,7 +16,7 @@
     [:&:active {:background-color (:dark-primary-color colors)}]
     [:&.hide [:.tasks-nav-lists {:display "none"}]]]
    [:&-lists {:background-color "#FFFFFF"
-              :border border
+              :border (:default-light borders)
               :border-radius "3px"
               :left "0"
               :position "absolute"
@@ -28,7 +26,7 @@
              :padding "0.5em 1em"}
     [:&:hover {:background-color "rgba(0,0,0,0.15)"}]
     [:&:active {:background-color "rgba(0,0,0,0.3)"}]]
-   [:&-create {:border-bottom border}]
+   [:&-create {:border-bottom (:default-light borders)}]
    [:&-header {:flex-grow 1
                :overflow-x "hidden"
                :padding "0.5em"

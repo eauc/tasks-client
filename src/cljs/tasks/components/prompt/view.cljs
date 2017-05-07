@@ -11,7 +11,7 @@
                          (-> event .stopPropagation)
                          (on-validate))
         on-value-update #(on-update %2)]
-    (fn [{:keys [message type value] :as prompt} _]
+    (fn prompt-render [{:keys [message type value] :as prompt} _]
       [:div.tasks-prompt {:class (if (nil? prompt) "hidden")
                           :on-click on-cancel}
        [:form.tasks-prompt-form
@@ -29,9 +29,9 @@
         [:div.tasks-prompt-actions
          [:button.tasks-prompt-ok
           {:on-click on-form-submit
-           :type "button"}
+           :type "submit"}
           "Ok"]
-         (when (not (= type :alert))
+         (when-not (= type :alert)
            [:button.tasks-prompt-cancel
             {:on-click on-cancel
              :type "button"}
@@ -42,7 +42,7 @@
         on-update #(re-frame/dispatch [:prompt-update %])
         on-validate #(re-frame/dispatch [:prompt-validate])
         prompt (re-frame/subscribe [:prompt])]
-    (fn []
+    (fn prompt-component []
       [render @prompt
        {:on-cancel on-cancel
         :on-update on-update

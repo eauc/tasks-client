@@ -1,56 +1,39 @@
 (ns tasks.db
   (:require [cljs.spec :as spec]
-            ;; [cljs.spec.impl.gen :as gen]
-            ;; [clojure.test.check.generators]
             [re-frame.core :as re-frame]
-            [tasks.debug :as debug]
-            [tasks.components.prompt.db]
-            [tasks.models.list]
-            [tasks.models.task]
-            [tasks.models.tasks]))
-
-(spec/def ::list (spec/nilable :tasks.models.list/edit))
-
-(spec/def ::current-list
-  (spec/and (complement empty?) string?))
-
-(spec/def ::lists (spec/* ::current-list))
-
-(spec/def ::title string?)
-
-(spec/def ::edit-task
-  (spec/keys :req-un [:tasks.models.task/id
-                      ::title
-                      :tasks.models.task/body
-                      :tasks.models.task/done]))
-
-(spec/def ::edit
-  (spec/nilable ::edit-task))
-
-(spec/def ::filter string?)
+            [tasks.debug :as debug :refer [debug?]]
+            [tasks.specs.prompt :as prompt-spec]
+            [tasks.specs.task]
+            [tasks.specs.task-edit]
+            [tasks.specs.tasks-list]
+            [tasks.specs.tasks-list-edit]))
 
 (spec/def ::page
   (spec/nilable keyword?))
 
 (spec/def ::prompt
-  (spec/nilable :tasks.components.prompt.db/prompt))
+  (spec/nilable :tasks.specs.prompt/prompt))
 
-(spec/def ::show-details
-  (spec/nilable :tasks.models.task/id))
+(spec/def ::task-edit
+  (spec/nilable :tasks.specs.task-edit/edit))
 
-(spec/def ::tasks
-  :tasks.models.tasks/tasks)
+(spec/def ::tasks-filter string?)
+
+(spec/def ::tasks-list-edit
+  (spec/nilable :tasks.specs.tasks-list-edit/edit))
+
+(spec/def ::tasks-show-details
+  (spec/nilable :tasks.specs.task/id))
 
 (spec/def ::db
-  (spec/keys :req-un [::current-list
-                      ::edit
-                      ::filter
-                      ::lists
-                      ::list-edit
-                      ::page
+  (spec/keys :req-un [::page
                       ::prompt
-                      ::show-details
-                      ::tasks]))
+                      ::task-edit
+                      ::tasks-filter
+                      :tasks.specs.tasks-list/tasks-list
+                      ::tasks-list-edit
+                      :tasks.specs.tasks-list/tasks-lists-names
+                      ::tasks-show-details]))
 
 (defn check-db-schema [db]
   (when (not (spec/valid? ::db db))
@@ -60,21 +43,21 @@
 (def check-spec-interceptor
   (re-frame/after check-db-schema))
 
-;; (def test-tasks
-;;   (->> (gen/sample (spec/gen :tasks.models.task/task))
-;;        (map-indexed #(assoc %2 :id (str %1)))))
+(def default-interceptors
+  [check-spec-interceptor
+   (when debug? re-frame/debug)])
 
 (def default-db
-  { ;; :tasks (into [] test-tasks)
-   :tasks []
-   :current-list nil
-   :edit nil
-   :filter ""
-   :lists []
-   :list-edit nil
-   :page nil
+  {:page nil
    :prompt nil
-   :show-details nil})
+   :task-edit nil
+   :tasks-filter ""
+   :tasks-list {:name "default"
+                :id nil
+                :tasks []}
+   :tasks-list-edit nil
+   :tasks-lists-names []
+   :tasks-show-details nil})
 
 (re-frame/reg-event-fx
  :initialize-db
