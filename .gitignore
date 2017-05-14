@@ -15,3 +15,4 @@ resources/public/js/
 resources/public/css/
 node_modules/
 resources/public/service-worker.js
+resources/public/vendor

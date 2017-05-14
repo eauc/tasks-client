@@ -35,5 +35,6 @@
    [:&-action {:background-color (:default-primary-color colors)
                :border 0
                :cursor "pointer"
+               :font-size "0.66em"
                :padding "0 1em"}
     [:&:active {:background-color (:dark-primary-color colors)}]]])

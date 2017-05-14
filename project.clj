@@ -5,9 +5,11 @@
   :aot [tasks.server]
   :main tasks.server
   :clean-targets ^{:protect false}
-  ["resources/public/css"
+  ["node_modules"
+   "resources/public/css"
    "resources/public/js"
    "resources/public/service-worker.js"
+   "resources/public/vendor"
    "target"]
   :dependencies
   [[org.clojure/clojure "1.8.0"]
@@ -22,20 +24,26 @@
    [ring/ring-defaults "0.2.3"]
    [secretary "1.2.3"]]
   :plugins
-  [[lein-cljsbuild "1.1.5"]
+  [[lein-bower "0.5.2"]
+   [lein-cljsbuild "1.1.5"]
    [lein-figwheel "0.5.10"]
    [lein-garden "0.3.0"]
    [lein-npm "0.6.2"]
    [lein-pprint "1.1.2"]]
   :prep-tasks
-  [["cljsbuild" "once" "app"]
+  [["bower" "install"]
+   ["cljsbuild" "once" "app"]
    ["garden" "once" "screen"]
+   ["npm" "install"]
    ["npm" "run" "sw-precache"]]
   :source-paths ["src/clj"]
   :target-path "target/%s"
   :uberjar-name "tasks.jar"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Tools
+  :bower {:directory "resources/public/vendor"}
+  :bower-dependencies [[marked "^0.3.6"]
+                       [normalize-css "^7.0.0"]]
   :cljsbuild
   {:builds
    {:app {:source-paths ["src/cljs"]
@@ -107,15 +115,15 @@
                              :pretty-print true}}}}
      :figwheel {:server-port 3450}}]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Production
-    :production
-    {:cljsbuild
-     {:builds
-      {:app {:compiler {:asset-path "js"
-                        :closure-defines {goog.DEBUG false}
-                        :optimizations :advanced
-                        :pretty-print false}}}}}
+   ;; Production
+   :production
+   {:cljsbuild
+    {:builds
+     {:app {:compiler {:asset-path "js"
+                       :closure-defines {goog.DEBUG false}
+                       :optimizations :advanced
+                       :pretty-print false}}}}}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Uberjar
-    :uberjar [:production]
-    :repl [:dev]})
+   ;; Uberjar
+   :uberjar [:production]
+   :repl [:dev]})
