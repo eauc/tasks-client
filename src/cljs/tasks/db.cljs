@@ -2,6 +2,7 @@
   (:require [cljs.spec :as spec]
             [re-frame.core :as re-frame]
             [tasks.debug :as debug :refer [debug?]]
+            [tasks.specs.auth]
             [tasks.specs.prompt :as prompt-spec]
             [tasks.specs.task]
             [tasks.specs.task-edit]
@@ -26,7 +27,7 @@
   (spec/nilable :tasks.specs.task/id))
 
 (spec/def ::db
-  (spec/keys :req-un [::page
+  (spec/keys :req-un [:tasks.specs.auth/auth
                       ::prompt
                       ::task-edit
                       ::tasks-filter
@@ -48,7 +49,8 @@
    (when debug? re-frame/debug)])
 
 (def default-db
-  {:page nil
+  {:auth {}
+   :page nil
    :prompt nil
    :task-edit nil
    :tasks-filter ""

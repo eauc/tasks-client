@@ -1,5 +1,6 @@
 (ns tasks.components.task.view
-  (:require [clojure.string :as str]
+  (:require [cljsjs.marked]
+            [clojure.string :as str]
             [tasks.models.task :as task]))
 
 (defn render [task {:keys [show-details toggle-details on-delete on-edit on-update]}]

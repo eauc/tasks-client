@@ -8,9 +8,9 @@
   },
   "staticFileGlobs": [
     "resources/public/index.html",
+    "resources/public/service-worker-registration.js",
     "resources/public/css/**.css",
     "resources/public/js/**.js",
-    "resources/public/vendor/marked/marked.min.js",
     "resources/public/vendor/normalize-css/normalize.css"
   ]
 }

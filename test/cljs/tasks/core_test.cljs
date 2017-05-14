@@ -1,5 +1,6 @@
 (ns tasks.core-test
-  (:require [tasks.components.nav.view-test]
+  (:require [tasks.components.auth.view-test]
+            [tasks.components.nav.view-test]
             [tasks.components.prompt.view-test]
             [tasks.components.task.view-test]
             [tasks.components.task-edit.view-test]

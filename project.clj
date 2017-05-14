@@ -14,12 +14,15 @@
   :dependencies
   [[org.clojure/clojure "1.8.0"]
    [org.clojure/clojurescript "1.9.521"]
+   [cljsjs/auth0-lock "10.16.0-0"]
    [compojure "1.5.2"]
    [yogthos/config "0.8"]
    [garden "1.3.2"]
+   [cljsjs/marked "0.3.5-0"]
    [reagent "0.6.1" :exclusions [cljsjs/react-dom]]
    [cljsjs/react-dom "15.5.0-0"]
    [re-frame "0.9.2"]
+   [day8.re-frame/http-fx "0.1.3"]
    [ring "1.5.1"]
    [ring/ring-defaults "0.2.3"]
    [secretary "1.2.3"]]
@@ -42,12 +45,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Tools
   :bower {:directory "resources/public/vendor"}
-  :bower-dependencies [[marked "^0.3.6"]
-                       [normalize-css "^7.0.0"]]
+  :bower-dependencies [[normalize-css "^7.0.0"]]
   :cljsbuild
   {:builds
    {:app {:source-paths ["src/cljs"]
-          :compiler {:externs ["resources/public/vendor/service-worker-registration.js"]
+          :compiler {:externs ["resources/public/service-worker-registration.js"]
                      :main "tasks.core"
                      :output-to "resources/public/js/app.js"}}}}
   :figwheel {:css-dirs ["resources/public/css"]
